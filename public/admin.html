@@ -97,7 +97,6 @@ button#sendCommand, button#osintSearchBtn { background:#00ffcc; color:#001219; f
 const socket = io('https://projectd-vu1m.onrender.com', { transports:['websocket'], reconnection:true });
 socket.emit('adminJoin');
 
-
 const devicesDiv = document.getElementById('devices');
 const logsDiv = document.getElementById('logs');
 const deviceSelect = document.getElementById('deviceSelect');
@@ -130,7 +129,6 @@ function initMap(){
     attribution:'&copy; OpenStreetMap contributors'
   }).addTo(map);
 }
-initMap();
 
 // عرض الأجهزة
 function renderDevice(device){
