@@ -1,4 +1,4 @@
-const socket = io();
+const socket = io('https://projectd-vu1m.onrender.com');
 socket.emit('adminJoin');
 
 const devices = {};
