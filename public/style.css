@@ -1,13 +1,156 @@
-body{font-family:Arial,sans-serif;color:#00ffcc;background:#041018;margin:0;padding:0;}
-header{background:#001219;padding:12px;color:#00ffcc;text-align:center;}
-header span{color:#ff5c5c;}
-.topbar{display:flex;gap:4px;padding:8px;background:#041018;}
-.tab{padding:6px 12px;background:#001219;border:1px solid #00ffcc;color:#00ffcc;cursor:pointer;}
-.tab.active{background:#00ffcc;color:#001219;}
-.panel{display:none;padding:12px;background:#001219;margin:8px;border-radius:6px;}
-.panel.active{display:block;}
-ul{list-style:none;padding:0;}
-li{padding:6px;border-bottom:1px dashed #00ffcc;}
-pre{white-space:pre-wrap;color:#fff;background:#001219;padding:8px;border-radius:6px;}
-input, select{padding:6px;margin:4px;border-radius:4px;border:1px solid #00ffcc;background:#001219;color:#00ffcc;}
-button{padding:6px 12px;border:none;border-radius:4px;background:#00ffcc;color:#001219;cursor:pointer;}
+/* خطوط وألوان عامة */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0b132b;
+  color: #dfffe8;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #1c2541;
+  padding: 16px;
+  text-align: center;
+  color: #00ffc3;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+header h1 span {
+  color: #ff4d6d;
+}
+
+.topbar {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  background-color: #1c2541;
+  padding: 8px;
+  gap: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.topbar button {
+  padding: 10px 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  background-color: #00ffc3;
+  color: #1c2541;
+  transition: 0.3s;
+}
+
+.topbar button.active,
+.topbar button:hover {
+  background-color: #ff4d6d;
+  color: #fff;
+}
+
+main {
+  padding: 16px;
+}
+
+/* تبويبات */
+.panel {
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.panel.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* الأجهزة */
+.device-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.device {
+  background-color: #1c2541;
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  transition: transform 0.2s;
+}
+
+.device:hover {
+  transform: scale(1.03);
+}
+
+.device button {
+  margin: 4px 4px 4px 0;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: #00ffc3;
+  color: #1c2541;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.device button:hover {
+  background-color: #ff4d6d;
+  color: #fff;
+}
+
+/* السجل */
+.log-container {
+  max-height: 500px;
+  overflow-y: auto;
+  padding: 12px;
+  background-color: #1c2541;
+  border-radius: 8px;
+}
+
+/* أوامر */
+.command-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 450px;
+  margin: auto;
+}
+
+.command-panel select,
+.command-panel button {
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
+}
+
+.command-panel button {
+  background-color: #00ffc3;
+  color: #1c2541;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.command-panel button:hover {
+  background-color: #ff4d6d;
+  color: #fff;
+}
+
+/* Responsive للهواتف */
+@media (max-width: 768px) {
+  .topbar {
+    flex-direction: column;
+  }
+  .device-container {
+    grid-template-columns: 1fr;
+  }
+  .command-panel {
+    max-width: 100%;
+  }
+}
+
+/* Dar*
