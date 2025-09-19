@@ -1,4 +1,4 @@
-const socket = io();
+const socket = io('https://projectd-vu1m.onrender.com');
 const devicesDiv = document.getElementById('devices');
 const logsDiv = document.getElementById('logs');
 const devicesMap = {}; // لتخزين بيانات الأجهزة
