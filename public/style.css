@@ -1,0 +1,31 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f3f3f3;
+  color: #333;
+  padding: 10px;
+}
+
+h1 {
+  color: #007acc;
+}
+
+#devices {
+  margin-top: 20px;
+  padding: 10px;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.device {
+  border-bottom: 1px solid #ccc;
+  padding: 8px 0;
+}
+
+#logs {
+  margin-top: 20px;
+  padding: 10px;
+  background: #fff;
+  border-radius: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+}
