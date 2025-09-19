@@ -778,15 +778,6 @@
         <div class="logo">
             <h1>نظام <span>Xhunter المتطور</span></h1>
         </div>
-          <!-- هنا أضفت سكربت داخل الـ header وهذا يقطع الكود -->
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
-  const socket = io('https://projectd-vu1m.onrender.com', { 
-    transports: ['websocket'], 
-    reconnection: true 
-  });
-  socket.emit('adminJoin');
-  </script>
         <div class="user-info">
             <div class="user-avatar">
                 <i class="fas fa-user-shield"></i>
@@ -1292,7 +1283,15 @@
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 <!-- Socket.io -->
 <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-
+<!-- هنا أضفت سكربت داخل الـ header وهذا يقطع الكود -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+  const socket = io('https://projectd-vu1m.onrender.com', { 
+    transports: ['websocket'], 
+    reconnection: true 
+  });
+  socket.emit('adminJoin');
+  </script>
 <script>
 // بيانات تجريبية للعرض
 const sampleData = {
